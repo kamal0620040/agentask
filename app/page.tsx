@@ -1,3 +1,4 @@
+import { CommandPalette } from "@/components/command-palette";
 import { DataTable } from "@/components/data-table";
 import { ThemeToggle } from "@/components/theme-toggle";
 
@@ -11,7 +12,10 @@ export default function Home() {
             Manage and view all users in your system
           </p>
         </div>
-        <ThemeToggle />
+        <div className="flex items-center gap-4">
+          <CommandPalette />
+          <ThemeToggle />
+        </div>
       </div>
       <DataTable />
     </div>
