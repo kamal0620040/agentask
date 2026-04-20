@@ -1,6 +1,6 @@
 import { CommandPalette } from "@/components/command-palette";
 import { DataTable } from "@/components/data-table";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
 
 export default function Home() {
   return (

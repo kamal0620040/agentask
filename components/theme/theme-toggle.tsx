@@ -2,12 +2,11 @@
 
 import * as React from 'react';
 import { Moon, Sun } from 'lucide-react';
-import { useTheme } from 'next-themes';
 
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { setThemeMode } from '@/store/reducer/theme-slice';
+import { setTheme } from '@/store/reducer/theme-slice';
 
 export function ThemeToggle() {
     const dispatch = useAppDispatch();
@@ -29,7 +28,7 @@ export function ThemeToggle() {
 
     function handleThemeToggle() {
         const newTheme = theme === 'light' ? 'dark' : 'light';
-        dispatch(setThemeMode(newTheme));
+        dispatch(setTheme(newTheme));
     }
 
     return (
