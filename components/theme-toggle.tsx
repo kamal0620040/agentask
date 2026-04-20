@@ -6,8 +6,8 @@ import { useTheme } from 'next-themes';
 
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { setThemeMode } from '@/lib/features/theme/theme-slice';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { setThemeMode } from '@/store/reducer/theme-slice';
 
 export function ThemeToggle() {
     const dispatch = useAppDispatch();

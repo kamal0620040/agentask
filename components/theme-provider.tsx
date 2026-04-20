@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { ThemeProvider as NextThemesProvider, ThemeProviderProps, useTheme } from "next-themes"
-import { useAppSelector } from "@/lib/hooks"
+import { useAppSelector } from "@/store/hooks"
 
 function ThemeSync() {
     const reduxTheme = useAppSelector((state) => state.theme.mode);

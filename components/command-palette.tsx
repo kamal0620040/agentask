@@ -1,10 +1,10 @@
 "use client";
-import { useAppDispatch } from "@/lib/hooks";
+import { useAppDispatch } from "@/store/hooks";
 import { CommandDialog, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem } from "@/components/ui/command";
 import { Monitor, Sun, Moon } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { CommandShortcut } from "./ui/command";
-import { toggleTheme, setThemeMode } from "@/lib/features/theme/theme-slice";
+import { toggleTheme, setThemeMode } from "@/store/reducer/theme-slice";
 
 export function CommandPalette() {
     const [open, setOpen] = useState(false);
