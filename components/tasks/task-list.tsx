@@ -3,7 +3,6 @@ import { cn } from '@/lib/utils';
 import {
   selectAllTasks,
   selectTaskCountsByStatus,
-  selectSelectedTaskId,
   selectSelectedTask,
 } from '@/store/features/tasks/tasks-selector';
 import {
@@ -17,18 +16,16 @@ import {
   Circle,
   Clock,
   CheckCircle2,
-  Trash2,
-  RefreshCw,
 } from 'lucide-react';
 import { Button } from '../ui/button';
 import { TaskItem } from './task-item';
 import { Todo } from '@/types/todo';
+import { TaskToolbar } from './task-toolbar';
 
 export function TaskList() {
   const dispatch = useAppDispatch();
   const tasks = useAppSelector(selectAllTasks);
   const taskCounts = useAppSelector(selectTaskCountsByStatus);
-  const selectedTaskId = useAppSelector(selectSelectedTaskId);
   const selectedTask = useAppSelector(selectSelectedTask);
 
   function handleStatusChange(id: string) {
@@ -43,18 +40,6 @@ export function TaskList() {
     dispatch(deleteTask(id));
   }
 
-  function handleDeleteSelected() {
-    if (selectedTaskId) {
-      dispatch(deleteTask(selectedTaskId));
-    }
-  }
-
-  function handleToggleSelectedStatus() {
-    if (selectedTask) {
-      dispatch(toggleTaskStatus(selectedTask.id));
-    }
-  }
-
   return (
     <div className="flex flex-col gap-4 w-full">
       <div className="flex items-center justify-between w-full">
@@ -63,28 +48,7 @@ export function TaskList() {
             <Plus className="h-4 w-4" />
             New issue
           </Button>
-          {selectedTask && (
-            <>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleToggleSelectedStatus}
-                className="gap-2">
-                <RefreshCw className="h-4 w-4" />
-                {selectedTask.status === 'done'
-                  ? 'Mark as Todo'
-                  : 'Mark as Done'}
-              </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={handleDeleteSelected}
-                aria-label="Delete"
-                className="gap-2">
-                <Trash2 className="size-4" />
-              </Button>
-            </>
-          )}
+          {selectedTask && <TaskToolbar selectedTask={selectedTask} />}
         </div>
         <div className="flex items-center gap-6 text-sm text-muted-foreground shrink-0">
           <div className="flex items-center gap-2">
@@ -110,7 +74,7 @@ export function TaskList() {
               onStatusChange={handleStatusChange}
               onStatusUpdate={handleStatusUpdate}
               onDelete={handleDeleteTask}
-              isSelected={task.id === selectedTaskId}
+              isSelected={selectedTask?.id === task.id}
             />
           ))}
         </div>
