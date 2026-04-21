@@ -21,13 +21,32 @@ import { Button } from '../ui/button';
 import { TaskItem } from './task-item';
 import { Todo } from '@/types/todo';
 import { TaskToolbar } from './task-toolbar';
+import { useCommandsRegistry } from '../commands/commands-context';
+import { useEffect } from 'react';
+import { taskSelectNextCommand, taskSelectPreviousCommand } from './task-commands';
 
 export function TaskList() {
+  const {registerCommand} = useCommandsRegistry();
   const dispatch = useAppDispatch();
   const tasks = useAppSelector(selectAllTasks);
   const taskCounts = useAppSelector(selectTaskCountsByStatus);
   const selectedTask = useAppSelector(selectSelectedTask);
 
+
+  useEffect(() => {
+    const taskSelectNextCommandItem = taskSelectNextCommand();
+    const taskSelectPreviousCommandItem = taskSelectPreviousCommand();
+
+    const unregisterTaskSelectNext = registerCommand(taskSelectNextCommandItem);
+    const unregisterTaskSelectPrevious = registerCommand(taskSelectPreviousCommandItem);
+
+    return () => {
+      unregisterTaskSelectNext();
+      unregisterTaskSelectPrevious();
+    };
+  }, [registerCommand]);
+
+  
   function handleStatusChange(id: string) {
     dispatch(toggleTaskStatus(id));
   }
@@ -53,11 +72,11 @@ export function TaskList() {
         <div className="flex items-center gap-6 text-sm text-muted-foreground shrink-0">
           <div className="flex items-center gap-2">
             <Circle className="h-4 w-4" />
-            <span>{taskCounts.todo} To Do</span>
+            <span>{taskCounts.todo} Todo</span>
           </div>
           <div className="flex items-center gap-2">
             <Clock className="h-4 w-4 text-blue-600" />
-            <span>{taskCounts.inProgress} In Progress</span>
+            <span>{taskCounts.inProgress} In progress</span>
           </div>
           <div className="flex items-center gap-2">
             <CheckCircle2 className="h-4 w-4 text-green-600" />
@@ -65,7 +84,7 @@ export function TaskList() {
           </div>
         </div>
       </div>
-      <div className={cn('border border-input mb-4 p-1', 'rounded-md')}>
+      <div className={cn('border border-input mb-4 p-1', 'rounded-lg')}>
         <div className="space-y-1">
           {tasks.map((task) => (
             <TaskItem

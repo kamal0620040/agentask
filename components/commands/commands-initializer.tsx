@@ -5,24 +5,24 @@ import { themeSetDarkCommand, themeSetLightCommand, themeToggleCommand } from "@
 import { useKeyboardShortcuts } from "@/lib/use-keyboard-shortcuts";
 
 export function CommandsInitializer() {
-    const { registerCommand, unregisterCommand } = useCommandsRegistry();
+    const { registerCommand } = useCommandsRegistry();
 
     // setup keyboard shortcuts
     useKeyboardShortcuts();
 
     useEffect(() => {
         // Register theme commands
-        registerCommand(themeToggleCommand);
-        registerCommand(themeSetLightCommand);
-        registerCommand(themeSetDarkCommand);
+        const unregisterThemeToggle = registerCommand(themeToggleCommand());
+        const unregisterThemeSetLight = registerCommand(themeSetLightCommand());
+        const unregisterThemeSetDark = registerCommand(themeSetDarkCommand());
 
         return () => {
             // Unregister theme commands on unmount
-            unregisterCommand(themeToggleCommand.id);
-            unregisterCommand(themeSetLightCommand.id);
-            unregisterCommand(themeSetDarkCommand.id);
+            unregisterThemeToggle();
+            unregisterThemeSetLight();
+            unregisterThemeSetDark();
         }
-    }, [registerCommand, unregisterCommand]);
+    }, [registerCommand]);
 
     return null;
 }

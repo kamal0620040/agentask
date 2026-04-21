@@ -9,3 +9,6 @@ export type Command = Readonly<{
     shortcut?: string;
     action: () => UnknownAction;
 }>;
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type CommandCreator = (params?: any) => Command;

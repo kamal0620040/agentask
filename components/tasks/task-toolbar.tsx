@@ -2,58 +2,51 @@
 
 import { RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useAppDispatch } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { useCommandsRegistry } from '@/components/commands/commands-context';
 import {
   toggleTaskStatus,
   deleteTask,
-  clearSelectedTask,
+  selectNextTask,
+  selectPreviousTask,
 } from '@/store/features/tasks/tasks-slice';
 import {
   taskDeleteCommand,
   TaskDeleteCommandIcon,
+  TaskSelectNextCommandIcon,
+  TaskSelectPreviousCommandIcon,
   taskUnselectCommand,
-  TaskUnselectCommandIcon,
 } from './task-commands';
 import { useEffect } from 'react';
 import { Todo } from '@/types/todo';
+import { selectHasNextTask, selectHasPreviousTask } from '@/store/features/tasks/tasks-selector';
 
 export function TaskToolbar({ selectedTask }: { selectedTask: Todo }) {
-  const { registerCommand, unregisterCommand } = useCommandsRegistry();
+  const { registerCommand } = useCommandsRegistry();
 
   const dispatch = useAppDispatch();
+  const hasNextTask = useAppSelector(selectHasNextTask);
+  const hasPreviousTask = useAppSelector(selectHasPreviousTask);
 
   useEffect(() => {
-    const taskDeleteCommandItem = taskDeleteCommand(selectedTask.id);
-    const taskUnselectCommandItem = taskUnselectCommand();
-
-    registerCommand(taskDeleteCommandItem);
-    registerCommand(taskUnselectCommandItem);
+    const unregisterTaskDelete = registerCommand(taskDeleteCommand(selectedTask.id));
+    const unregisterTaskUnselect = registerCommand(taskUnselectCommand());
 
     return () => {
-      unregisterCommand(taskDeleteCommandItem.id);
-      unregisterCommand(taskUnselectCommandItem.id);
+      unregisterTaskDelete();
+      unregisterTaskUnselect();
     };
-  }, [registerCommand, unregisterCommand, selectedTask.id]);
+  }, [registerCommand, selectedTask.id]);
 
-  function handleDeleteSelected() {
-    dispatch(deleteTask(selectedTask.id));
-  }
-
-  function handleToggleSelectedStatus() {
-    dispatch(toggleTaskStatus(selectedTask.id));
-  }
-
-  function handleUnselect() {
-    dispatch(clearSelectedTask());
-  }
 
   return (
     <>
       <Button
         variant="outline"
         size="sm"
-        onClick={handleToggleSelectedStatus}
+        onClick={() => {
+            dispatch(toggleTaskStatus(selectedTask.id));
+        }}
         className="gap-2">
         <RefreshCw className="size-4" />
         {selectedTask.status === 'done' ? 'Mark as Todo' : 'Mark as Done'}
@@ -61,7 +54,9 @@ export function TaskToolbar({ selectedTask }: { selectedTask: Todo }) {
       <Button
         variant="outline"
         size="icon"
-        onClick={handleDeleteSelected}
+        onClick={() => {
+          dispatch(deleteTask(selectedTask.id));
+        }}
         aria-label="Delete"
         className="gap-2">
         <TaskDeleteCommandIcon className="size-4" />
@@ -69,10 +64,24 @@ export function TaskToolbar({ selectedTask }: { selectedTask: Todo }) {
       <Button
         variant="outline"
         size="icon"
-        onClick={handleUnselect}
-        aria-label="Clear selection"
+         onClick={() => {
+          dispatch(selectNextTask());
+        }}
+        disabled={!hasNextTask}
+        aria-label="Next task"
         className="gap-2">
-        <TaskUnselectCommandIcon className="size-4" />
+        <TaskSelectNextCommandIcon className="size-4" />
+      </Button>
+      <Button
+        variant="outline"
+        size="icon"
+        onClick={() => {
+          dispatch(selectPreviousTask());
+        }}
+        disabled={!hasPreviousTask}
+        aria-label="Prev task"
+        className="gap-2">
+        <TaskSelectPreviousCommandIcon className="size-4" />
       </Button>
     </>
   );

@@ -79,3 +79,28 @@ export const selectSelectedTask = createSelector(
         return tasks.find(task => task.id === selectedTaskId) || null;  
     }
 );
+
+// Navigation availability selectors
+export const selectSelectedTaskIndex = createSelector(
+  [selectAllTasks, selectSelectedTaskId],
+  (tasks, selectedTaskId) => {
+    if (!selectedTaskId) return -1;
+    return tasks.findIndex((task) => task.id === selectedTaskId);
+  },
+);
+
+export const selectHasNextTask = createSelector(
+  [selectAllTasks, selectSelectedTaskIndex],
+  (tasks, selectedIndex) => {
+    if (selectedIndex === -1 || tasks.length === 0) return false;
+    return selectedIndex < tasks.length - 1;
+  },
+);
+
+export const selectHasPreviousTask = createSelector(
+  [selectSelectedTaskIndex],
+  (selectedIndex) => {
+    if (selectedIndex === -1) return false;
+    return selectedIndex > 0;
+  },
+);
