@@ -1,0 +1,68 @@
+"use client";
+import { cn } from "@/lib/utils";
+import { selectAllTasks, selectTaskCountsByStatus } from "@/store/features/tasks/tasks-selector";
+import { toggleTaskStatus } from "@/store/features/tasks/tasks-slice";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { Plus, Circle, Clock, CheckCircle2 } from "lucide-react";
+import { Button } from "../ui/button";
+import { TaskItem } from "./task-item";
+
+export function TaskList() {
+    const dispatch = useAppDispatch();
+    const tasks = useAppSelector(selectAllTasks);
+    const taskCounts = useAppSelector(selectTaskCountsByStatus);
+
+    function handleStatusChange(id: string) {
+        dispatch(toggleTaskStatus(id));
+    }
+
+    return (
+    <div className="flex flex-col gap-4 w-full">
+      <div className="flex items-center justify-between w-full">
+        <div>
+          <Button
+            variant="secondary"
+            size="sm"
+            className="w-full justify-start gap-2">
+            <Plus className="h-4 w-4" />
+            New issue
+          </Button>
+        </div>
+        <div className="flex items-center gap-6 text-sm text-muted-foreground shrink-0">
+          <div className="flex items-center gap-2">
+            <Circle className="h-4 w-4" />
+            <span>{taskCounts.todo} To Do</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Clock className="h-4 w-4 text-blue-600" />
+            <span>{taskCounts.inProgress} In Progress</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <CheckCircle2 className="h-4 w-4 text-green-600" />
+            <span>{taskCounts.done} Done</span>
+          </div>
+        </div>
+      </div>
+      <div className={cn('border border-input mb-4 p-1', 'rounded-md')}>
+        <div className="space-y-1">
+          {tasks.map((task) => (
+            <TaskItem
+              key={task.id}
+              task={task}
+              onStatusChange={handleStatusChange}
+            />
+          ))}
+        </div>
+        {tasks.length === 0 && (
+          <div className="text-center py-12 text-muted-foreground">
+            <Circle className="h-12 w-12 mx-auto mb-4 opacity-50" />
+            <p>No issues yet</p>
+            <p className="text-sm">Create your first issue to get started</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
+
+}

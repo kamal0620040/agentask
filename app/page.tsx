@@ -1,6 +1,6 @@
 import { CommandPalette } from "@/components/commands/command-palette";
 import { CommandsInitializer } from "@/components/commands/commands-initializer";
-import { DataTable } from "@/components/data-table";
+import { TaskList } from "@/components/tasks/task-list";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 
 export default function Home() {
@@ -19,7 +19,7 @@ export default function Home() {
           <ThemeToggle />
         </div>
       </div>
-      <DataTable />
+      <TaskList />
     </div>
   );
 }

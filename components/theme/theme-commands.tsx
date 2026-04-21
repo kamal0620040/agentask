@@ -1,6 +1,6 @@
 import { Command } from '@/actions/types';
 import { Monitor, Moon, Sun } from 'lucide-react';
-import { setTheme, toggleTheme } from '@/store/reducer/theme-slice';
+import { setTheme, toggleTheme } from '@/store/features/theme/theme-slice';
 
 export const themeToggleCommand: Command = {
     id: 'theme.toggle',
