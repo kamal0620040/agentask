@@ -7,6 +7,7 @@ export const selectTasksState = (state: RootState) => state.tasks;
 export const selectAllTasks = (state: RootState) => state.tasks.tasks;
 export const selectTaskLoading = (state: RootState) => state.tasks.loading;
 export const selectTaskError = (state: RootState) => state.tasks.error;
+export const selectSelectedTaskId = (state: RootState) => state.tasks.selectedTaskId;
 
 // Task by ID selector
 export const selectTaskById = (taskId: string) => createSelector([selectAllTasks], (tasks) => tasks.find(task => task.id === taskId));
@@ -68,3 +69,13 @@ export const selectRecentlyUpdatedTasks = createSelector([selectAllTasks], (task
     const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
     return tasks.filter(task => task.updatedAt && new Date(task.updatedAt) > oneDayAgo);
 });
+
+
+// Selected task selector
+export const selectSelectedTask = createSelector(
+    [selectAllTasks, selectSelectedTaskId],
+    (tasks, selectedTaskId) => {
+        if(!selectedTaskId) return null;
+        return tasks.find(task => task.id === selectedTaskId) || null;  
+    }
+);
