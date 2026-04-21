@@ -1,25 +1,26 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
-import "./globals.css";
-import { cn } from "@/lib/utils";
-import { ThemeProvider } from "@/components/theme/theme-provider";
-import { ReduxProvider } from "@/components/provider/redux-provider";
+import type { Metadata } from 'next';
+import { Geist, Geist_Mono, Inter } from 'next/font/google';
+import './globals.css';
+import { cn } from '@/lib/utils';
+import { ThemeProvider } from '@/components/theme/theme-provider';
+import { ReduxProvider } from '@/components/provider/redux-provider';
+import { CommandsProvider } from '@/components/commands/commands-context';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
-  title: "agentask",
-  description: "AI-powered task management system",
+  title: 'agentask',
+  description: 'AI-powered task management system',
 };
 
 export default function RootLayout({
@@ -30,18 +31,26 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable)}
-      suppressHydrationWarning
-    >
+      className={cn(
+        'h-full',
+        'antialiased',
+        geistSans.variable,
+        geistMono.variable,
+        'font-sans',
+        inter.variable,
+      )}
+      suppressHydrationWarning>
       <body className="min-h-full flex flex-col">
         <ReduxProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange>
-            {children}
-          </ThemeProvider>
+          <CommandsProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange>
+              {children}
+            </ThemeProvider>
+          </CommandsProvider>
         </ReduxProvider>
       </body>
     </html>
