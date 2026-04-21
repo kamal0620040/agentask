@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import { ThemeProvider } from '@/components/theme/theme-provider';
 import { ReduxProvider } from '@/components/provider/redux-provider';
 import { CommandsProvider } from '@/components/commands/commands-context';
+import { TooltipProvider } from '@/components/ui/tooltip';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -48,7 +49,9 @@ export default function RootLayout({
               defaultTheme="system"
               enableSystem
               disableTransitionOnChange>
-              {children}
+              <TooltipProvider delayDuration={0}>
+                {children}
+              </TooltipProvider>
             </ThemeProvider>
           </CommandsProvider>
         </ReduxProvider>

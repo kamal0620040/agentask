@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 
 import { useAppDispatch } from '@/store/hooks';
 import { useCommandsRegistry } from './commands-context';
+import { cn, formatShortcut } from '@/lib/utils';
 
 export function CommandPalette() {
   const [open, setOpen] = useState(false);
@@ -41,15 +42,6 @@ export function CommandPalette() {
     },
     {} as Record<string, typeof commands>,
   );
-
-  const formatShortcut = (shortcut: string) => {
-    return shortcut
-      .replace('cmd', '⌘')
-      .replace('shift', '⇧')
-      .replace('alt', '⌥')
-      .replace('+', '')
-      .toUpperCase();
-  };
 
   return (
     <>
