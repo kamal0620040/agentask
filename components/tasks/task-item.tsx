@@ -18,7 +18,7 @@ import {
   ContextMenu,
 } from '../ui/context-menu';
 import { useAppDispatch } from '@/store/hooks';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { setSelectedTask } from '@/store/features/tasks/tasks-slice';
 import { TaskStatusIcon } from './task-status-icon';
 import { TaskPriorityIcon } from './task-priority-icon';
@@ -39,6 +39,15 @@ export function TaskItem({
   isSelected = false,
 }: TaskItemProps) {
   const dispatch = useAppDispatch();
+    const rootRef = React.useRef<HTMLDivElement>(null);
+    
+  useEffect(() => {
+    if (isSelected && rootRef.current) {
+      rootRef.current.scrollIntoView({
+        block: 'nearest',
+      });
+    }
+  }, [isSelected]);
 
   function handleStatusClick(e: React.MouseEvent) {
     e.stopPropagation();
@@ -78,10 +87,10 @@ export function TaskItem({
   return (
     <ContextMenu>
       <ContextMenuTrigger asChild>
-        <div>
+        <div ref={rootRef}>
           <div
             className={cn(
-              'group flex items-center gap-3 px-3 py-2 rounded-md transition-colors',
+              'group flex items-center gap-3 px-3 py-2 rounded transition-colors',
               isSelected ? 'bg-indigo-300/25' : 'hover:bg-accent/50',
             )}
             onClick={() => {
