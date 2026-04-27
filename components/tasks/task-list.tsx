@@ -31,6 +31,7 @@ import {
 import { TaskDetails } from './task-details';
 import { ScrollArea } from '../ui/scroll-area';
 import { cn } from '@/lib/utils';
+import { TaskStatusIcon } from './task-status-icon';
 
 export function TaskList() {
   const {registerCommand} = useCommandsRegistry();
@@ -83,19 +84,19 @@ export function TaskList() {
             <Plus className="size-4" />
             New issue
           </Button>
-          {selectedTask && <TaskToolbar selectedTask={selectedTask} />}
+          {selectedTask && <TaskToolbar />}
         </div>
         <div className="flex items-center gap-6 text-sm text-muted-foreground shrink-0">
           <div className="flex items-center gap-2">
-            <Circle className="size-4" />
+            <TaskStatusIcon status='todo' size='md' />
             <span className='text-xs'>{taskCounts.todo} Todo</span>
           </div>
           <div className="flex items-center gap-2">
-            <Clock className="size-4 text-blue-600" />
+            <TaskStatusIcon status='in-progress' size='md' />
             <span className='text-xs'>{taskCounts.inProgress} In progress</span>
           </div>
           <div className="flex items-center gap-2">
-            <CheckCircle2 className="size-4 text-green-600" />
+            <TaskStatusIcon status='done' size='md' />
             <span className='text-xs'>{taskCounts.done} Done</span>
           </div>
         </div>
