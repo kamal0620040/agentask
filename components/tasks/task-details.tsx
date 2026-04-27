@@ -8,10 +8,10 @@ import {
 } from './task-commands';
 import { useEffect } from 'react';
 import { toggleTaskStatus } from '@/store/features/tasks/tasks-slice';
-import { RefreshCw } from 'lucide-react';
 import { Button } from '../ui/button';
 import { formatShortcut } from '@/lib/utils';
 import { TooltipTrigger, TooltipContent, Tooltip } from '../ui/tooltip';
+import { RiRefreshLine } from 'react-icons/ri';
 
 export type TaskDetailsProps = {
   task: Todo;
@@ -47,7 +47,7 @@ export function TaskDetails({ task }: TaskDetailsProps) {
                 dispatch(toggleTaskStatus(task.id));
               }}
               className="gap-2">
-              <RefreshCw className="size-4" />
+              <RiRefreshLine className="size-4" />
               {task.status === 'done' ? 'Mark as Todo' : 'Mark as Done'}
             </Button>
           </TooltipTrigger>

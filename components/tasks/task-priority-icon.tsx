@@ -1,6 +1,6 @@
-import { AlertTriangle, Flame, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Todo } from '@/types/todo';
+import { RiAlarmWarningLine, RiArrowLeftBoxLine, RiArrowRightBoxLine, RiFireLine } from 'react-icons/ri';
 
 interface TaskPriorityIconProps {
   priority: Todo['priority'];
@@ -23,18 +23,18 @@ export function TaskPriorityIcon({
 
   switch (priority) {
     case 'urgent':
-      return <Flame className={cn(iconSize, 'text-red-500', className)} />;
+      return <RiFireLine className={cn(iconSize, 'text-red-500', className)} />;
     case 'high':
       return (
-        <AlertTriangle className={cn(iconSize, 'text-orange-500', className)} />
+        <RiAlarmWarningLine className={cn(iconSize, 'text-orange-500', className)} />
       );
     case 'medium':
       return (
-        <ArrowRight className={cn(iconSize, 'text-yellow-500', className)} />
+        <RiArrowLeftBoxLine className={cn(iconSize, 'text-yellow-500', className)} />
       );
     case 'low':
       return (
-        <ArrowRight
+        <RiArrowRightBoxLine
           className={cn(iconSize, 'text-gray-400 rotate-90', className)}
         />
       );

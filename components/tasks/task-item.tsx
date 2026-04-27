@@ -1,11 +1,6 @@
 'use client';
 import { cn } from '@/lib/utils';
 import { Todo } from '@/types/todo';
-import {
-  User,
-  Calendar,
-  Trash2,
-} from 'lucide-react';
 import { Badge } from '../ui/badge';
 import {
   ContextMenuTrigger,
@@ -22,6 +17,8 @@ import React, { useEffect } from 'react';
 import { setSelectedTask } from '@/store/features/tasks/tasks-slice';
 import { TaskStatusIcon } from './task-status-icon';
 import { TaskPriorityIcon } from './task-priority-icon';
+import { RiTimeLine, RiUserLine } from 'react-icons/ri';
+import { taskDeleteCommand, TaskDeleteCommandIcon } from './task-commands';
 
 interface TaskItemProps {
   task: Todo;
@@ -99,7 +96,7 @@ export function TaskItem({
             <button
               onClick={handleStatusClick}
               className="shrink-0 hover:scale-110 transition-transform">
-              <TaskStatusIcon status={task.status} />
+              <TaskStatusIcon status={task.status} size='lg' />
             </button>
             <div className="flex items-center gap-2 shrink-0">
               <span className="text-xs text-muted-foreground font-mono font-medium w-14">
@@ -135,13 +132,13 @@ export function TaskItem({
             <div className="flex items-center gap-3 transition-opacity">
               {task.assignee && (
                 <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                  <User className="h-3 w-3" />
+                  <RiUserLine className="h-3 w-3" />
                   <span>{task.assignee.name.split(' ')[0]}</span>
                 </div>
               )}
               {task.dueDate && (
                 <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                  <Calendar className="h-3 w-3" />
+                  <RiTimeLine className="h-3 w-3" />
                   <span>
                     {new Date(task.dueDate).toLocaleDateString('en-US', {
                       month: 'short',
@@ -179,7 +176,7 @@ export function TaskItem({
         </ContextMenuSub>
         <ContextMenuSeparator />
         <ContextMenuItem onClick={handleDelete}>
-          <Trash2 className="h-4 w-4" />
+          <TaskDeleteCommandIcon className="size-4" />
           <span className="ml-2">Delete...</span>
         </ContextMenuItem>
       </ContextMenuContent>

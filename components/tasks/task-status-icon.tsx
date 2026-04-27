@@ -1,6 +1,10 @@
-import { CheckCircle2, Circle, Clock } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Todo } from '@/types/todo';
+import {
+  RiCheckboxBlankCircleLine,
+  RiCheckboxCircleFill,
+  RiTimeLine,
+} from 'react-icons/ri';
 
 interface TaskStatusIconProps {
   status: Todo['status'];
@@ -24,13 +28,25 @@ export function TaskStatusIcon({
   switch (status) {
     case 'done':
       return (
-        <CheckCircle2 className={cn(iconSize, 'text-green-600', className)} />
+        <RiCheckboxCircleFill
+          className={cn(iconSize, 'text-green-600', className)}
+        />
       );
     case 'in-progress':
-      return <Clock className={cn(iconSize, 'text-yellow-400', className)} />;
+      return (
+        <RiTimeLine className={cn(iconSize, 'text-yellow-400', className)} />
+      );
     case 'cancelled':
-      return <Circle className={cn(iconSize, 'text-gray-400', className)} />;
+      return (
+        <RiCheckboxBlankCircleLine
+          className={cn(iconSize, 'text-gray-400', className)}
+        />
+      );
     default:
-      return <Circle className={cn(iconSize, 'text-gray-400', className)} />;
+      return (
+        <RiCheckboxBlankCircleLine
+          className={cn(iconSize, 'text-gray-400', className)}
+        />
+      );
   }
 }

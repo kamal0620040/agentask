@@ -1,4 +1,3 @@
-import { Ban, ChevronDown, ChevronUp, Trash2 } from 'lucide-react';
 import { CommandCreator } from '@/actions/types';
 import {
   clearSelectedTask,
@@ -6,8 +5,9 @@ import {
   selectNextTask,
   selectPreviousTask,
 } from '@/store/features/tasks/tasks-slice';
+import { RiArrowDownSLine, RiArrowUpSLine, RiDeleteBinLine, RiForbidLine } from 'react-icons/ri';
 
-export const TaskDeleteCommandIcon = Trash2;
+export const TaskDeleteCommandIcon = RiDeleteBinLine;
 export const taskDeleteCommand:CommandCreator = (id: string) => ({
   id: 'task.delete',
   name: 'Delete task',
@@ -18,7 +18,7 @@ export const taskDeleteCommand:CommandCreator = (id: string) => ({
   action: () => deleteTask(id),
 });
 
-export const TaskUnselectCommandIcon = Ban;
+export const TaskUnselectCommandIcon = RiForbidLine;
 export const taskUnselectCommand: CommandCreator = () => ({
   id: 'task.unselect',
   name: 'Unselect task',
@@ -29,7 +29,7 @@ export const taskUnselectCommand: CommandCreator = () => ({
   action: () => clearSelectedTask(),
 });
 
-export const TaskSelectNextCommandIcon = ChevronDown;
+export const TaskSelectNextCommandIcon = RiArrowDownSLine;
 export const taskSelectNextCommand: CommandCreator = () => ({
   id: 'task.select.next',
   name: 'Select next task',
@@ -40,7 +40,7 @@ export const taskSelectNextCommand: CommandCreator = () => ({
   action: () => selectNextTask(),
 });
 
-export const TaskSelectPreviousCommandIcon = ChevronUp;
+export const TaskSelectPreviousCommandIcon = RiArrowUpSLine;
 export const taskSelectPreviousCommand: CommandCreator = () => ({
   id: 'task.select.prev',
   name: 'Select previous task',

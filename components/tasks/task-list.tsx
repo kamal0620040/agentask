@@ -10,12 +10,6 @@ import {
   updateTaskStatus,
 } from '@/store/features/tasks/tasks-slice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import {
-  Plus,
-  Circle,
-  Clock,
-  CheckCircle2,
-} from 'lucide-react';
 import { Button } from '../ui/button';
 import { TaskItem } from './task-item';
 import { Todo } from '@/types/todo';
@@ -32,6 +26,7 @@ import { TaskDetails } from './task-details';
 import { ScrollArea } from '../ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { TaskStatusIcon } from './task-status-icon';
+import { RiAddLine, RiCheckboxBlankCircleLine } from 'react-icons/ri';
 
 export function TaskList() {
   const {registerCommand} = useCommandsRegistry();
@@ -81,22 +76,22 @@ export function TaskList() {
         className={cn('flex items-center justify-between w-full', 'py-2 px-2')}>
         <div className="flex items-center gap-2">
           <Button variant="default" size="sm">
-            <Plus className="size-4" />
+            <RiAddLine className="size-4" />
             New issue
           </Button>
           {selectedTask && <TaskToolbar />}
         </div>
         <div className="flex items-center gap-6 text-sm text-muted-foreground shrink-0">
           <div className="flex items-center gap-2">
-            <TaskStatusIcon status='todo' size='md' />
+            <TaskStatusIcon status='todo' size='lg' />
             <span className='text-xs'>{taskCounts.todo} Todo</span>
           </div>
           <div className="flex items-center gap-2">
-            <TaskStatusIcon status='in-progress' size='md' />
+            <TaskStatusIcon status='in-progress' size='lg' />
             <span className='text-xs'>{taskCounts.inProgress} In progress</span>
           </div>
           <div className="flex items-center gap-2">
-            <TaskStatusIcon status='done' size='md' />
+            <TaskStatusIcon status='done' size='lg' />
             <span className='text-xs'>{taskCounts.done} Done</span>
           </div>
         </div>
@@ -119,7 +114,7 @@ export function TaskList() {
               ))}
               {tasks.length === 0 && (
                 <div className="text-center py-12 text-muted-foreground">
-                  <Circle className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                  <RiCheckboxBlankCircleLine className="h-12 w-12 mx-auto mb-4 opacity-50" />
                   <p>No issues yet</p>
                   <p className="text-sm">
                     Create your first issue to get started
