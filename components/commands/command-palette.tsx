@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react';
 
 import { useAppDispatch } from '@/store/hooks';
 import { useCommandsRegistry } from './commands-context';
-import { cn, formatShortcut } from '@/lib/utils';
+import { formatShortcut } from '@/lib/utils';
 
 export function CommandPalette() {
   const [open, setOpen] = useState(false);
