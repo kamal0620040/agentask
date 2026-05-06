@@ -1,9 +1,9 @@
 import { cn } from '@/lib/utils';
-import { Todo } from '@/types/todo';
+import { TaskStatus } from '@/types/task';
 import { taskStatusRecord } from './task-status-list';
 
 interface TaskStatusIconProps {
-  status: Todo['status'];
+  status: TaskStatus;
   size?: 'sm' | 'md' | 'lg';
   className?: string;
 }

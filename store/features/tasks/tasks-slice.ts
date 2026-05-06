@@ -1,18 +1,14 @@
-import { mockTodos } from '@/data/mock-todos';
-import { Todo } from '@/types/todo';
-import { createSlice, current, PayloadAction } from '@reduxjs/toolkit';
+import { mockTasks } from '@/data/mock-tasks';
+import { Task, TaskStatus } from '@/types/task';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface TaskState {
-  tasks: Todo[];
+  tasks: Task[];
   selectedTaskId: string | null;
-  loading: boolean;
-  error: boolean;
 }
 
 const initialState: TaskState = {
-  tasks: mockTodos,
-  loading: false,
-  error: false,
+  tasks: mockTasks,
   selectedTaskId: null,
 };
 
@@ -20,12 +16,12 @@ export const taskSlice = createSlice({
   name: 'tasks',
   initialState,
   reducers: {
-    addTask: (state, action: PayloadAction<Todo>) => {
+    addTask: (state, action: PayloadAction<Task>) => {
       state.tasks.push(action.payload);
     },
     updateTask: (
       state,
-      action: PayloadAction<{ id: string; updates: Partial<Todo> }>,
+      action: PayloadAction<{ id: string; updates: Partial<Task> }>,
     ) => {
       const index = state.tasks.findIndex(
         (task) => task.id === action.payload.id,
@@ -65,7 +61,7 @@ export const taskSlice = createSlice({
     // Status operation
     updateTaskStatus: (
       state,
-      action: PayloadAction<{ id: string; status: Todo['status'] }>,
+      action: PayloadAction<{ id: string; status: TaskStatus }>,
     ) => {
       const index = state.tasks.findIndex(
         (task) => task.id === action.payload.id,
@@ -84,25 +80,15 @@ export const taskSlice = createSlice({
         task.updatedAt = new Date().toISOString();
       }
     },
-    // Priority operation
-    updateTaskPriority: (
-      state,
-      action: PayloadAction<{ id: string; priority: Todo['priority'] }>,
-    ) => {
-      const task = state.tasks.find((task) => task.id === action.payload.id);
-      if (task) {
-        task.priority = action.payload.priority;
-        task.updatedAt = new Date().toISOString();
-      }
-    },
+
     // Assignee operation
     assignTask: (
       state,
-      action: PayloadAction<{ id: string; assignee: Todo['assignee'] }>,
+      action: PayloadAction<{ id: string; assigneeId: string }>,
     ) => {
       const task = state.tasks.find((task) => task.id === action.payload.id);
       if (task) {
-        task.assignee = action.payload.assignee;
+        task.assigneeId = action.payload.assigneeId;
         task.updatedAt = new Date().toISOString();
       }
     },
@@ -138,13 +124,6 @@ export const taskSlice = createSlice({
     },
     clearSelectedTask: (state) => {
       state.selectedTaskId = null;
-    },
-    // Loading and error operations
-    setLoading: (state, action: PayloadAction<boolean>) => {
-      state.loading = action.payload;
-    },
-    setError: (state, action: PayloadAction<boolean>) => {
-      state.error = action.payload;
     },
      selectNextTask: (state) => {
       if (state.tasks.length === 0) return;
@@ -198,9 +177,7 @@ export const taskSlice = createSlice({
       state.tasks = state.tasks.filter((task) => task.status !== 'done');
     },
     resetTasks: (state) => {
-      state.tasks = mockTodos;
-      state.loading = false;
-      state.error = false;
+      state.tasks = mockTasks;
     },
   },
 });
@@ -211,14 +188,11 @@ export const {
   deleteTask,
   updateTaskStatus,
   toggleTaskStatus,
-  updateTaskPriority,
   assignTask,
   addTaskLabel,
   removeTaskLabel,
   setSelectedTask,
   clearSelectedTask,
-  setLoading,
-  setError,
   clearCompletedTasks,
   resetTasks,
   selectNextTask,

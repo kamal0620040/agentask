@@ -1,6 +1,6 @@
 'use client';
 import { cn } from '@/lib/utils';
-import { Todo } from '@/types/todo';
+import { Task, TaskStatus } from '@/types/task';
 import { Badge } from '../ui/badge';
 import {
   ContextMenuTrigger,
@@ -15,15 +15,14 @@ import {
 import { useAppDispatch } from '@/store/hooks';
 import React, { useEffect } from 'react';
 import { setSelectedTask } from '@/store/features/tasks/tasks-slice';
-import { TaskStatusIcon } from './task-status-icon';
-import { TaskPriorityIcon } from './task-priority-icon';
-import { RiTimeLine, RiUserLine } from 'react-icons/ri';
-import { taskDeleteCommand, TaskDeleteCommandIcon } from './task-commands';
+import { TaskStatusIcon } from './status/task-status-icon';
+import { RiUserLine } from 'react-icons/ri';
+import { TaskDeleteCommandIcon } from './task-commands';
 
 interface TaskItemProps {
-  task: Todo;
+  task: Task;
   onStatusChange: (id: string) => void;
-  onStatusUpdate: (id: string, status: Todo['status']) => void;
+  onStatusUpdate: (id: string, status: TaskStatus) => void;
   onDelete: (id: string) => void;
   isSelected?: boolean;
 }
@@ -55,11 +54,11 @@ export function TaskItem({
     onDelete(task.id);
   }
 
-  function handleStatusUpdate(status: Todo['status']) {
+  function handleStatusUpdate(status: TaskStatus) {
     onStatusUpdate(task.id, status);
   }
 
-  function getStatusText(status: Todo['status']) {
+  function getStatusText(status: TaskStatus) {
     switch (status) {
       case 'todo':
         return 'To Do';
@@ -74,7 +73,7 @@ export function TaskItem({
     }
   }
 
-  const allStatuses: Todo['status'][] = [
+  const allStatuses: TaskStatus[] = [
     'todo',
     'in-progress',
     'done',
@@ -102,7 +101,6 @@ export function TaskItem({
               <span className="text-xs text-muted-foreground font-mono font-medium w-14">
                 {task.id}
               </span>
-              <TaskPriorityIcon priority={task.priority} />
             </div>
             <div className="flex-1 min-w-0">
               <span
@@ -130,21 +128,10 @@ export function TaskItem({
               )}
             </div>
             <div className="flex items-center gap-3 transition-opacity">
-              {task.assignee && (
+              {task.assigneeId && (
                 <div className="flex items-center gap-1 text-xs text-muted-foreground">
                   <RiUserLine className="h-3 w-3" />
-                  <span>{task.assignee.name.split(' ')[0]}</span>
-                </div>
-              )}
-              {task.dueDate && (
-                <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                  <RiTimeLine className="h-3 w-3" />
-                  <span>
-                    {new Date(task.dueDate).toLocaleDateString('en-US', {
-                      month: 'short',
-                      day: 'numeric',
-                    })}
-                  </span>
+                  <span>{task.assigneeId}</span>
                 </div>
               )}
             </div>

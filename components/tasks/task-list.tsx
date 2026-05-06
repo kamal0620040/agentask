@@ -12,7 +12,7 @@ import {
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { Button } from '../ui/button';
 import { TaskItem } from './task-item';
-import { Todo } from '@/types/todo';
+import { TaskStatus } from '@/types/task';
 import { TaskToolbar } from './task-toolbar';
 import { useCommandsRegistry } from '../commands/commands-context';
 import { useEffect } from 'react';
@@ -25,7 +25,7 @@ import {
 import { TaskDetails } from './task-details';
 import { ScrollArea } from '../ui/scroll-area';
 import { cn } from '@/lib/utils';
-import { TaskStatusIcon } from './task-status-icon';
+import { TaskStatusIcon } from './status/task-status-icon';
 import { RiAddLine, RiCheckboxBlankCircleLine } from 'react-icons/ri';
 
 export function TaskList() {
@@ -55,7 +55,7 @@ export function TaskList() {
     dispatch(toggleTaskStatus(id));
   }
 
-  function handleStatusUpdate(id: string, status: Todo['status']) {
+  function handleStatusUpdate(id: string, status: TaskStatus) {
     dispatch(updateTaskStatus({ id, status }));
   }
 
