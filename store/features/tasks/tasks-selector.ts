@@ -1,10 +1,30 @@
+import { assignees } from "@/data/mock-tasks";
 import { RootState } from "@/store/store";
-import { TaskStatus } from "@/types/task";
+import { TaskObject, TaskRaw, TaskStatus } from "@/types/task";
 import { createSelector } from "@reduxjs/toolkit";
 
-// Base selector
-export const selectTasksState = (state: RootState) => state.tasks;
-export const selectAllTasks = (state: RootState) => state.tasks.tasks;
+function augmentTaskWithAssignee(task: TaskRaw | null): TaskObject | null {
+    if (task == null) {
+    return null;
+  }
+
+  if (!task.assigneeId) {
+    return { ...task, assignee: null };
+  }
+
+  const assignee = assignees.find((a) => a.id === task.assigneeId) ?? null;
+
+  return {
+    ...task,
+    assignee,
+  };
+}
+
+function augmentTasksWithAssignee(tasks: TaskRaw[]): Array<TaskObject> {
+  return tasks.map(augmentTaskWithAssignee).flatMap((task) => task || []);
+}
+
+export const selectAllTasks = (state: RootState) => augmentTasksWithAssignee(state.tasks.tasks);
 export const selectSelectedTaskId = (state: RootState) => state.tasks.selectedTaskId;
 
 // Task by ID selector
@@ -19,8 +39,8 @@ export const selectDoneTasks = selectTasksByStatus('done');
 export const selectCancelledTasks = selectTasksByStatus('cancelled');
 
 // Assignee-based selector
-export const selectTasksByAssignee = (assigneeId: string) => createSelector([selectAllTasks], (tasks) => tasks.filter(task => task.assigneeId === assigneeId));
-export const selectUnassignedTasks = createSelector([selectAllTasks], (tasks) => tasks.filter(task => !task.assigneeId));
+export const selectTasksByAssignee = (assigneeId: string) => createSelector([selectAllTasks], (tasks) => tasks.filter(task => task.assignee?.id === assigneeId));
+export const selectUnassignedTasks = createSelector([selectAllTasks], (tasks) => tasks.filter(task => task.assignee !== null));
 
 // Label-based selector
 export const selectTasksByLabel = (label: string) => createSelector([selectAllTasks], (tasks) => tasks.filter(task => task.labels?.includes(label)));

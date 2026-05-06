@@ -1,4 +1,4 @@
-import { TaskStatus, type Task } from '@/types/task';
+import { TaskStatus, type TaskObject } from '@/types/task';
 import { useCommandsRegistry } from '../commands/commands-context';
 import { useAppDispatch } from '@/store/hooks';
 import {
@@ -15,16 +15,16 @@ import { RiArrowDownSLine } from 'react-icons/ri';
 import { DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenu } from '../ui/dropdown-menu';
 import { taskStatusList, taskStatusRecord } from './status/task-status-list';
 import { TaskStatusIcon } from './status/task-status-icon';
+import Image from 'next/image';
 
 export type TaskDetailsProps = {
-  task: Task;
+  task: TaskObject;
 };
 
 export function TaskDetails({ task }: TaskDetailsProps) {
   const { registerCommand } = useCommandsRegistry();
   const dispatch = useAppDispatch();
 
-  const assigneeName = task.assigneeId || 'No assignee';
   const taskDeleteCommandObj = taskDeleteCommand(task.id);
 
   function handleStatusChange(newStatus: TaskStatus) {
@@ -105,7 +105,20 @@ export function TaskDetails({ task }: TaskDetailsProps) {
         <h2 className="text-lg font-bold mb-2">{task.title}</h2>
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
           <span>Assignee:</span>
-          <span className="font-medium">{assigneeName}</span>
+          {task.assignee && (
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <Image
+                src={task.assignee?.avatar || '/default-avatar.png'}
+                alt={task.assignee?.name}
+                width={24}
+                height={24}
+                className="rounded-full"
+              />
+              <span className="font-medium">
+                {task.assignee?.name || 'Unassigned'}
+              </span>
+            </div>
+          )}
         </div>
         <div className="mb-2 text-sm font-semibold">Description</div>
         <div className="text-sm text-muted-foreground whitespace-pre-line">
