@@ -27,6 +27,7 @@ import { ScrollArea } from '../ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { TaskStatusIcon } from './status/task-status-icon';
 import { RiAddLine, RiCheckboxBlankCircleLine } from 'react-icons/ri';
+import { taskStatusRecord } from './status/task-status-list';
 
 export function TaskList() {
   const {registerCommand} = useCommandsRegistry();
@@ -84,15 +85,21 @@ export function TaskList() {
         <div className="flex items-center gap-6 text-sm text-muted-foreground shrink-0">
           <div className="flex items-center gap-2">
             <TaskStatusIcon status='todo' size='lg' />
-            <span className='text-xs'>{taskCounts.todo} Todo</span>
+            <span className='text-xs'>{taskCounts.todo} {taskStatusRecord.todo.label}</span>
           </div>
           <div className="flex items-center gap-2">
             <TaskStatusIcon status='in-progress' size='lg' />
-            <span className='text-xs'>{taskCounts.inProgress} In progress</span>
+            <span className='text-xs'>{taskCounts.inProgress} {taskStatusRecord['in-progress'].label}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <TaskStatusIcon status="in-review" size="lg" />
+            <span className="text-xs">
+              {taskCounts.inReview} {taskStatusRecord['in-review'].label}
+            </span>
           </div>
           <div className="flex items-center gap-2">
             <TaskStatusIcon status='done' size='lg' />
-            <span className='text-xs'>{taskCounts.done} Done</span>
+            <span className='text-xs'>{taskCounts.done} {taskStatusRecord.done.label}</span>
           </div>
         </div>
       </div>

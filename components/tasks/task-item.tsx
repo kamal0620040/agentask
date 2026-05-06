@@ -18,6 +18,8 @@ import { setSelectedTask } from '@/store/features/tasks/tasks-slice';
 import { TaskStatusIcon } from './status/task-status-icon';
 import { TaskDeleteCommandIcon } from './task-commands';
 import Image from 'next/image';
+import { RiProgress4Line } from 'react-icons/ri';
+import { TaskStatusCombobox } from './status/task-status-combobox';
 
 interface TaskItemProps {
   task: TaskObject;
@@ -34,6 +36,7 @@ export function TaskItem({
   onDelete,
   isSelected = false,
 }: TaskItemProps) {
+  const [open, setOpen] = React.useState(false);
   const dispatch = useAppDispatch();
     const rootRef = React.useRef<HTMLDivElement>(null);
     
@@ -57,28 +60,6 @@ export function TaskItem({
   function handleStatusUpdate(status: TaskStatus) {
     onStatusUpdate(task.id, status);
   }
-
-  function getStatusText(status: TaskStatus) {
-    switch (status) {
-      case 'todo':
-        return 'To Do';
-      case 'in-progress':
-        return 'In Progress';
-      case 'done':
-        return 'Done';
-      case 'cancelled':
-        return 'Cancelled';
-      default:
-        return 'To Do';
-    }
-  }
-
-  const allStatuses: TaskStatus[] = [
-    'todo',
-    'in-progress',
-    'done',
-    'cancelled',
-  ];
 
   return (
     <ContextMenu>
@@ -140,31 +121,22 @@ export function TaskItem({
         </div>
       </ContextMenuTrigger>
       <ContextMenuContent className="w-52">
-        <ContextMenuSub>
+        <ContextMenuSub open={open} onOpenChange={setOpen}>
           <ContextMenuSubTrigger>
-            <TaskStatusIcon status={task.status} />
+            <RiProgress4Line className="size-4 text-muted-foreground" />
             <span className="ml-2">Status</span>
           </ContextMenuSubTrigger>
-          <ContextMenuSubContent className="w-48">
-            {allStatuses.map((status) => (
-              <ContextMenuItem
-                key={status}
-                onClick={() => handleStatusUpdate(status)}
-                className={cn('flex items-center')}>
-                <TaskStatusIcon status={status} />
-                <span className="ml-2">{getStatusText(status)}</span>
-                {task.status === status && (
-                  <span className="ml-auto text-xs text-muted-foreground">
-                    Current
-                  </span>
-                )}
-              </ContextMenuItem>
-            ))}
+          <ContextMenuSubContent className="p-0 w-48">
+              <TaskStatusCombobox onSelect={(status) => {
+                handleStatusUpdate(status);
+                setOpen(false);
+              }}
+            />
           </ContextMenuSubContent>
         </ContextMenuSub>
         <ContextMenuSeparator />
         <ContextMenuItem onClick={handleDelete}>
-          <TaskDeleteCommandIcon className="size-4" />
+          <TaskDeleteCommandIcon className="size-4 text-muted-foreground"  />
           <span className="ml-2">Delete...</span>
         </ContextMenuItem>
       </ContextMenuContent>

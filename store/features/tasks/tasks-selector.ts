@@ -57,6 +57,7 @@ export const selectTaskCountsByStatus = createSelector([selectAllTasks], (tasks)
     total: tasks.length,
     todo: tasks.filter(task => task.status === 'todo').length,
     inProgress: tasks.filter(task => task.status === 'in-progress').length,
+    inReview: tasks.filter(task => task.status === 'in-review').length,
     done: tasks.filter(task => task.status === 'done').length,
     cancelled: tasks.filter(task => task.status === 'cancelled').length,
 })); 

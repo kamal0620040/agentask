@@ -2,6 +2,8 @@ import {
   RiCheckboxBlankCircleLine,
   RiCheckboxCircleFill,
   RiCloseCircleFill,
+  RiProgress4Line,
+  RiProgress6Line,
   RiTimeLine,
 } from 'react-icons/ri';
 import { TaskStatus } from '@/types/task';
@@ -17,17 +19,22 @@ export const taskStatusRecord: Record<
   todo: {
     icon: RiCheckboxBlankCircleLine,
     className: 'text-gray-400',
-    label: 'To Do',
+    label: 'Todo',
   },
   'in-progress': {
-    icon: RiTimeLine,
+    icon: RiProgress4Line,
     className: 'text-yellow-500',
     label: 'In Progress',
   },
   done: {
     icon: RiCheckboxCircleFill,
-    className: 'text-green-600',
+    className: 'text-indigo-600',
     label: 'Done',
+  },
+  'in-review': {
+    icon: RiProgress6Line,
+    className: 'text-blue-500',
+    label: 'In Review',
   },
   cancelled: {
     icon: RiCloseCircleFill,
@@ -39,6 +46,7 @@ export const taskStatusRecord: Record<
 export const taskStatusList = [
   'todo',
   'in-progress',
+  'in-review',
   'done',
   'cancelled',
 ] as const;

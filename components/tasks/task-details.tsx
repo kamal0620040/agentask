@@ -11,11 +11,8 @@ import { updateTaskStatus } from '@/store/features/tasks/tasks-slice';
 import { Button } from '../ui/button';
 import { cn, formatShortcut } from '@/lib/utils';
 import { TooltipTrigger, TooltipContent, Tooltip } from '../ui/tooltip';
-import { RiArrowDownSLine } from 'react-icons/ri';
-import { DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenu } from '../ui/dropdown-menu';
-import { taskStatusList, taskStatusRecord } from './status/task-status-list';
-import { TaskStatusIcon } from './status/task-status-icon';
 import Image from 'next/image';
+import { TaskStatusSelector } from './status/task-status-selector';
 
 export type TaskDetailsProps = {
   task: TaskObject;
@@ -47,36 +44,7 @@ export function TaskDetails({ task }: TaskDetailsProps) {
     <div className={cn('divide-y divide-input')}>
       <div
         className={cn('flex items-center gap-2 justify-between', 'py-2 px-2')}>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="outline"
-              size="sm"
-              className="flex items-center gap-1"
-              aria-label="Change status">
-              <TaskStatusIcon status={task.status} />
-              <span className="capitalize text-xs font-medium">
-                {task.status.replace('-', ' ')}
-              </span>
-              <RiArrowDownSLine className="w-3 h-3 ml-1 opacity-60" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="start">
-            {taskStatusList.map((status) => {
-              const taskStatus = taskStatusRecord[status];
-
-              return (
-                <DropdownMenuItem
-                  key={status}
-                  onClick={() => handleStatusChange(status)}>
-                  <TaskStatusIcon status={status} className="mr-2" size="md" />
-                  {taskStatus.label}
-                </DropdownMenuItem>
-              );
-            })}
-          </DropdownMenuContent>
-        </DropdownMenu>
-
+        <TaskStatusSelector value={task.status} onChange={handleStatusChange} />
         <Tooltip>
            <TooltipTrigger asChild>
              <Button
