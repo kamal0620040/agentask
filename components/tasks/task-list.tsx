@@ -5,14 +5,13 @@ import {
   selectSelectedTask,
 } from '@/store/features/tasks/tasks-selector';
 import {
+  assignTask,
   deleteTask,
-  toggleTaskStatus,
   updateTaskStatus,
 } from '@/store/features/tasks/tasks-slice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { Button } from '../ui/button';
 import { TaskItem } from './task-item';
-import { TaskStatus } from '@/types/task';
 import { TaskToolbar } from './task-toolbar';
 import { useCommandsRegistry } from '../commands/commands-context';
 import { useEffect } from 'react';
@@ -50,15 +49,6 @@ export function TaskList() {
       unregisterTaskSelectPrevious();
     };
   }, [registerCommand]);
-
-  
-  function handleStatusChange(id: string) {
-    dispatch(toggleTaskStatus(id));
-  }
-
-  function handleStatusUpdate(id: string, status: TaskStatus) {
-    dispatch(updateTaskStatus({ id, status }));
-  }
 
   function handleDeleteTask(id: string) {
     dispatch(deleteTask(id));
@@ -113,8 +103,12 @@ export function TaskList() {
                 <TaskItem
                   key={task.id}
                   task={task}
-                  onStatusChange={handleStatusChange}
-                  onStatusUpdate={handleStatusUpdate}
+                  onAssigneeChange={(assigneeId) => {
+                    dispatch(assignTask({ id: task.id, assigneeId }));
+                  }}
+                  onStatusChange={(status) => {
+                    dispatch(updateTaskStatus({ id: task.id, status }));
+                  }}
                   onDelete={handleDeleteTask}
                   isSelected={selectedTask?.id === task.id}
                 />

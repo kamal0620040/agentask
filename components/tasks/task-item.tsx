@@ -13,18 +13,19 @@ import {
   ContextMenu,
 } from '../ui/context-menu';
 import { useAppDispatch } from '@/store/hooks';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { setSelectedTask } from '@/store/features/tasks/tasks-slice';
 import { TaskStatusIcon } from './status/task-status-icon';
 import { TaskDeleteCommandIcon } from './task-commands';
 import Image from 'next/image';
-import { RiProgress4Line } from 'react-icons/ri';
+import { RiProgress4Line, RiUser2Fill } from 'react-icons/ri';
 import { TaskStatusCombobox } from './status/task-status-combobox';
+import { TaskAssigneeCombobox } from './assignee/task-assignee-combobox';
 
 interface TaskItemProps {
   task: TaskObject;
-  onStatusChange: (id: string) => void;
-  onStatusUpdate: (id: string, status: TaskStatus) => void;
+  onAssigneeChange: (assigneeId: string) => void;
+  onStatusChange: (status: TaskStatus) => void;
   onDelete: (id: string) => void;
   isSelected?: boolean;
 }
@@ -32,13 +33,16 @@ interface TaskItemProps {
 export function TaskItem({
   task,
   onStatusChange,
-  onStatusUpdate,
+  onAssigneeChange,
   onDelete,
   isSelected = false,
 }: TaskItemProps) {
-  const [open, setOpen] = React.useState(false);
   const dispatch = useAppDispatch();
     const rootRef = React.useRef<HTMLDivElement>(null);
+
+  const [statusSubOpen, setStatusSubOpen] = useState(false);
+  const [assigneeSubOpen, setAssigneeSubOpen] = useState(false);
+  
     
   useEffect(() => {
     if (isSelected && rootRef.current) {
@@ -48,17 +52,9 @@ export function TaskItem({
     }
   }, [isSelected]);
 
-  function handleStatusClick(e: React.MouseEvent) {
-    e.stopPropagation();
-    onStatusChange(task.id);
-  }
 
   function handleDelete() {
     onDelete(task.id);
-  }
-
-  function handleStatusUpdate(status: TaskStatus) {
-    onStatusUpdate(task.id, status);
   }
 
   return (
@@ -74,7 +70,6 @@ export function TaskItem({
               dispatch(setSelectedTask(task.id));
             }}>
             <button
-              onClick={handleStatusClick}
               className="shrink-0 hover:scale-110 transition-transform">
               <TaskStatusIcon status={task.status} size='lg' />
             </button>
@@ -121,15 +116,31 @@ export function TaskItem({
         </div>
       </ContextMenuTrigger>
       <ContextMenuContent className="w-52">
-        <ContextMenuSub open={open} onOpenChange={setOpen}>
+        <ContextMenuSub open={statusSubOpen} onOpenChange={setStatusSubOpen}>
           <ContextMenuSubTrigger>
             <RiProgress4Line className="size-4 text-muted-foreground" />
             <span className="ml-2">Status</span>
           </ContextMenuSubTrigger>
           <ContextMenuSubContent className="p-0 w-48">
               <TaskStatusCombobox onSelect={(status) => {
-                handleStatusUpdate(status);
-                setOpen(false);
+                onStatusChange(status);
+                setStatusSubOpen(false);
+              }}
+            />
+          </ContextMenuSubContent>
+        </ContextMenuSub>
+        <ContextMenuSub
+          open={assigneeSubOpen}
+          onOpenChange={setAssigneeSubOpen}>
+          <ContextMenuSubTrigger>
+            <RiUser2Fill className="size-4 text-muted-foreground" />
+            <span className="ml-2">Assignee</span>
+          </ContextMenuSubTrigger>
+          <ContextMenuSubContent className="p-0 w-48">
+            <TaskAssigneeCombobox
+              onSelect={(assigneeId) => {
+                onAssigneeChange(assigneeId);
+                setAssigneeSubOpen(false);
               }}
             />
           </ContextMenuSubContent>
