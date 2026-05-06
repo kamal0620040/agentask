@@ -161,21 +161,6 @@ export const taskSlice = createSlice({
       }
       // If already at the first task, do nothing (stay at current)
     },
-    toggleSelectedTaskStatus: (state) => {
-      if (state.selectedTaskId) {
-        const task = state.tasks.find(
-          (task) => task.id === state.selectedTaskId,
-        );
-        if (task) {
-          task.status = task.status === 'done' ? 'todo' : 'done';
-          task.updatedAt = new Date().toISOString();
-        }
-      }
-    },
-    // Bulk operations
-    clearCompletedTasks: (state) => {
-      state.tasks = state.tasks.filter((task) => task.status !== 'done');
-    },
     resetTasks: (state) => {
       state.tasks = mockTasks;
     },
@@ -193,11 +178,9 @@ export const {
   removeTaskLabel,
   setSelectedTask,
   clearSelectedTask,
-  clearCompletedTasks,
   resetTasks,
   selectNextTask,
   selectPreviousTask,
-  toggleSelectedTaskStatus,
 } = taskSlice.actions;
 
 export default taskSlice.reducer;
