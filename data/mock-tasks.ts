@@ -1,62 +1,10 @@
 import { TaskRaw } from '@/types/task';
-
-export const assignees = [
-    {
-    id: '1',
-    name: 'John Doe',
-    avatar: 'https://i.pravatar.cc/150?img=69',
-  },
-  {
-    id: '2',
-    name: 'Jane Smith',
-    avatar: 'https://i.pravatar.cc/150?img=49',
-  },
-  {
-    id: '3',
-    name: 'Bob Johnson',
-    avatar: 'https://i.pravatar.cc/150?img=22',
-  },
-  {
-    id: '4',
-    name: 'Alice Brown',
-    avatar: 'https://i.pravatar.cc/150?img=13',
-  },
-  {
-    id: '5',
-    name: 'Mike Wilson',
-    avatar: 'https://i.pravatar.cc/150?img=44',
-  },
-  {
-    id: '6',
-    name: 'Sarah Davis',
-    avatar: 'https://i.pravatar.cc/150?img=23',
-  },
-  {
-    id: '7',
-    name: 'Chris Lee',
-    avatar: 'https://i.pravatar.cc/150?img=3',
-  },
-  {
-    id: '8',
-    name: 'Emma Taylor',
-    avatar: 'https://i.pravatar.cc/150?img=28',
-  },
-  {
-    id: '9',
-    name: 'David Miller',
-    avatar: 'https://i.pravatar.cc/150?img=20',
-  },
-  {
-    id: '10',
-    name: 'Lisa Garcia',
-    avatar: 'https://i.pravatar.cc/150?img=10',
-  },
-];
+import { assignees } from './mock-assignee';
 
 export const mockTasks: TaskRaw[] = [
   {
     id: 'MUL-101',
-    title: 'implement user authentication',
+    title: 'Implement user authentication',
     description: 'Add JWT-based authentication system with refresh tokens',
     status: 'in-progress',
     assigneeId: assignees[4].id,
@@ -66,7 +14,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-100',
-    title: 'database migration script',
+    title: 'Database migration script',
     description: 'Create migration scripts for the new user table schema',
     status: 'todo',
     assigneeId: assignees[5].id,
@@ -76,7 +24,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-99',
-    title: 'fix responsive layout issues',
+    title: 'Fix responsive layout issues',
     description: 'Address layout problems on tablet and mobile devices',
     status: 'todo',
     assigneeId: assignees[6].id,
@@ -86,7 +34,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-98',
-    title: 'api documentation update',
+    title: 'API documentation update',
     description: 'Update OpenAPI specifications for new endpoints',
     status: 'done',
     assigneeId: assignees[7].id,
@@ -96,7 +44,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-97',
-    title: 'performance optimization',
+    title: 'Performance optimization',
     description: 'Optimize database queries and improve page load times',
     status: 'in-progress',
     assigneeId: assignees[8].id,
@@ -106,7 +54,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-96',
-    title: 'unit test coverage',
+    title: 'Unit test coverage',
     description: 'Increase unit test coverage to 90% for core modules',
     status: 'todo',
     assigneeId: assignees[9].id,
@@ -116,7 +64,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-95',
-    title: 'user onboarding flow',
+    title: 'User onboarding flow',
     description: 'Design and implement guided onboarding for new users',
     status: 'in-progress',
     assigneeId: assignees[0].id,
@@ -126,7 +74,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-94',
-    title: 'error tracking integration',
+    title: 'Error tracking integration',
     description: 'Integrate Sentry for better error monitoring and reporting',
     status: 'done',
     assigneeId: assignees[1].id,
@@ -136,7 +84,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-93',
-    title: 'dark mode support',
+    title: 'Dark mode support',
     description: 'Add dark mode theme support across the application',
     status: 'todo',
     assigneeId: assignees[2].id,
@@ -146,7 +94,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-90',
-    title: 'email notification system',
+    title: 'Email notification system',
     description: 'Build email notification system for important updates',
     status: 'in-progress',
     assigneeId: assignees[3].id,
@@ -156,7 +104,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-89',
-    title: 'search functionality',
+    title: 'Search functionality',
     description: 'Implement full-text search with filtering and sorting',
     status: 'todo',
     assigneeId: assignees[4].id,
@@ -166,7 +114,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-88',
-    title: 'code review guidelines',
+    title: 'Code review guidelines',
     description: 'Create comprehensive code review guidelines and checklist',
     status: 'done',
     assigneeId: assignees[5].id,
@@ -176,7 +124,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-87',
-    title: 'ci/cd pipeline setup',
+    title: 'CI/CD pipeline setup',
     description: 'Set up automated deployment pipeline with GitHub Actions',
     status: 'done',
     assigneeId: assignees[6].id,
@@ -186,7 +134,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-86',
-    title: 'user profile page',
+    title: 'User profile page',
     description: 'Design and implement user profile management page',
     status: 'in-progress',
     assigneeId: assignees[7].id,
@@ -196,7 +144,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-84',
-    title: 'cache implementation',
+    title: 'Cache implementation',
     description: 'Implement Redis caching for frequently accessed data',
     status: 'todo',
     assigneeId: assignees[8].id,
@@ -206,7 +154,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-83',
-    title: 'security audit',
+    title: 'Security audit',
     description: 'Conduct comprehensive security audit and fix vulnerabilities',
     status: 'todo',
     assigneeId: assignees[9].id,
@@ -216,7 +164,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-82',
-    title: 'payment integration',
+    title: 'Payment integration',
     description: 'Integrate Stripe payment processing for subscription plans',
     status: 'cancelled',
     assigneeId: assignees[0].id,
@@ -226,7 +174,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-81',
-    title: 'analytics dashboard',
+    title: 'Analytics dashboard',
     description: 'Build analytics dashboard with charts and metrics',
     status: 'in-progress',
     assigneeId: assignees[1].id,
@@ -236,7 +184,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-80',
-    title: 'file upload feature',
+    title: 'File upload feature',
     description: 'Implement file upload with drag-and-drop support',
     status: 'done',
     assigneeId: assignees[2].id,
@@ -246,7 +194,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-79',
-    title: 'accessibility improvements',
+    title: 'Accessibility improvements',
     description: 'Improve accessibility compliance (WCAG 2.1 AA)',
     status: 'todo',
     assigneeId: assignees[3].id,
@@ -256,7 +204,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-78',
-    title: 'backup strategy',
+    title: 'Backup strategy',
     description: 'Implement automated backup strategy for production data',
     status: 'done',
     assigneeId: assignees[4].id,
@@ -266,7 +214,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-76',
-    title: 'api rate limiting',
+    title: 'API rate limiting',
     description: 'Implement rate limiting for API endpoints',
     status: 'todo',
     assigneeId: assignees[5].id,
@@ -276,7 +224,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-75',
-    title: 'mobile app prototype',
+    title: 'Mobile app prototype',
     description: 'Create React Native prototype for mobile application',
     status: 'cancelled',
     assigneeId: assignees[6].id,
@@ -286,7 +234,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-74',
-    title: 'translation system',
+    title: 'Translation system',
     description: 'Implement i18n system for multi-language support',
     status: 'todo',
     assigneeId: assignees[7].id,
@@ -296,7 +244,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-73',
-    title: 'webhook system',
+    title: 'Webhook system',
     description: 'Build webhook system for third-party integrations',
     status: 'in-progress',
     assigneeId: assignees[8].id,
@@ -306,7 +254,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-72',
-    title: 'log aggregation',
+    title: 'Log aggregation',
     description: 'Set up centralized logging with ELK stack',
     status: 'done',
     assigneeId: assignees[9].id,
@@ -316,7 +264,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-71',
-    title: 'social media integration',
+    title: 'Social media integration',
     description: 'Add social media sharing and login options',
     status: 'todo',
     assigneeId: assignees[0].id,
@@ -326,7 +274,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-70',
-    title: 'performance monitoring',
+    title: 'Performance monitoring',
     description: 'Set up application performance monitoring with New Relic',
     status: 'done',
     assigneeId: assignees[1].id,
@@ -336,7 +284,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-69',
-    title: 'database indexing',
+    title: 'Database indexing',
     description: 'Optimize database performance with proper indexing',
     status: 'in-progress',
     assigneeId: assignees[2].id,
@@ -346,7 +294,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-68',
-    title: 'component library',
+    title: 'Component library',
     description: 'Create reusable component library with Storybook',
     status: 'todo',
     assigneeId: assignees[3].id,
@@ -356,7 +304,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-67',
-    title: 'api versioning',
+    title: 'API versioning',
     description: 'Implement API versioning strategy and migration plan',
     status: 'done',
     assigneeId: assignees[4].id,
@@ -366,7 +314,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-66',
-    title: 'real-time notifications',
+    title: 'Real-time notifications',
     description: 'Implement real-time notifications using WebSockets',
     status: 'in-progress',
     assigneeId: assignees[5].id,
@@ -376,7 +324,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-65',
-    title: 'load testing',
+    title: 'Load testing',
     description: 'Conduct load testing and optimize for high traffic',
     status: 'todo',
     assigneeId: assignees[6].id,
@@ -386,7 +334,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-64',
-    title: 'content management system',
+    title: 'Content management system',
     description: 'Build CMS for non-technical users to manage content',
     status: 'cancelled',
     assigneeId: assignees[7].id,
@@ -396,7 +344,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-63',
-    title: 'data visualization',
+    title: 'Data visualization',
     description: 'Create interactive charts and graphs for data display',
     status: 'todo',
     assigneeId: assignees[8].id,
@@ -406,7 +354,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-62',
-    title: 'form validation library',
+    title: 'Form validation library',
     description: 'Create comprehensive form validation with custom rules',
     status: 'done',
     assigneeId: assignees[9].id,
@@ -416,7 +364,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-61',
-    title: 'admin panel redesign',
+    title: 'Admin panel redesign',
     description: 'Redesign admin panel with modern UI/UX principles',
     status: 'in-progress',
     assigneeId: assignees[0].id,
@@ -426,7 +374,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-60',
-    title: 'microservices architecture',
+    title: 'Microservices architecture',
     description: 'Plan migration to microservices architecture',
     status: 'todo',
     assigneeId: assignees[1].id,
@@ -436,7 +384,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-59',
-    title: 'user feedback system',
+    title: 'User feedback system',
     description: 'Implement in-app feedback collection and management',
     status: 'todo',
     assigneeId: assignees[2].id,
@@ -446,7 +394,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-58',
-    title: 'docker containerization',
+    title: 'Docker containerization',
     description: 'Containerize application with Docker and Docker Compose',
     status: 'done',
     assigneeId: assignees[3].id,
@@ -456,7 +404,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-57',
-    title: 'code splitting optimization',
+    title: 'Code splitting optimization',
     description: 'Implement code splitting for better bundle optimization',
     status: 'in-progress',
     assigneeId: assignees[4].id,
@@ -466,7 +414,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-56',
-    title: 'health check endpoints',
+    title: 'Health check endpoints',
     description: 'Add health check endpoints for monitoring and deployment',
     status: 'done',
     assigneeId: assignees[5].id,
@@ -476,7 +424,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-55',
-    title: 'progressive web app',
+    title: 'Progressive web app',
     description: 'Convert application to Progressive Web App (PWA)',
     status: 'todo',
     assigneeId: assignees[6].id,
@@ -486,7 +434,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-54',
-    title: 'feature flag system',
+    title: 'Feature flag system',
     description: 'Implement feature flag system for gradual rollouts',
     status: 'cancelled',
     assigneeId: assignees[7].id,
@@ -496,7 +444,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-53',
-    title: 'automated testing suite',
+    title: 'Automated testing suite',
     description: 'Set up comprehensive automated testing with Cypress',
     status: 'in-progress',
     assigneeId: assignees[8].id,
@@ -506,7 +454,7 @@ export const mockTasks: TaskRaw[] = [
   },
   {
     id: 'MUL-52',
-    title: 'documentation website',
+    title: 'Documentation website',
     description: 'Create comprehensive documentation website with examples',
     status: 'todo',
     assigneeId: assignees[9].id,

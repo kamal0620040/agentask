@@ -9,8 +9,8 @@ import {
   CommandGroup,
 } from '@/components/ui/command';
 
-import { assignees } from '@/data/mock-tasks';
 import Image from 'next/image';
+import { assignees } from '@/data/mock-assignee';
 
 type Props = {
   onSelect: (assignee: string) => void;
