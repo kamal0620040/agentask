@@ -19,6 +19,7 @@ import { TaskStatusSelector } from './status/task-status-selector';
 import { TaskAssigneeSelector } from './assignee/task-assignee-selector';
 import { Textarea } from '../ui/textarea';
 import { Label } from '../ui/label';
+import { TaskTitleField } from './title/task-title-field';
 
 export type TaskDetailsProps = {
   task: TaskObject;
@@ -33,11 +34,6 @@ export function TaskDetails({ task }: TaskDetailsProps) {
   const [description, setDescription] = useState<string>(
     task.description || '',
   );
-
-  // Keep local description in sync when task changes
-  useEffect(() => {
-    setDescription(task.description || '');
-  }, [task.id, task.description]);
 
   function handleStatusChange(newStatus: TaskStatus) {
     if (newStatus !== task.status) {
@@ -102,7 +98,13 @@ export function TaskDetails({ task }: TaskDetailsProps) {
       </div>
 
       <div className={cn(' flex flex-col gap-2  px-3 py-3')}>
-        <h2 className="text-lg font-bold mb-2">{task.title}</h2>
+        <TaskTitleField
+          key={task.id}
+          value={task.title}
+          onChange={(value) =>
+            dispatch(updateTask({ id: task.id, updates: { title: value } }))
+          }
+        />
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
           <span>Assignee:</span>
           {task.assignee ? (
