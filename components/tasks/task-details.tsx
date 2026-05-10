@@ -6,7 +6,7 @@ import {
   TaskDeleteCommandIcon,
   taskUnselectCommand,
 } from './task-commands';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import {
   assignTask,
   updateTask,
@@ -17,9 +17,8 @@ import { cn, formatShortcut } from '@/lib/utils';
 import { TooltipTrigger, TooltipContent, Tooltip } from '../ui/tooltip';
 import { TaskStatusSelector } from './status/task-status-selector';
 import { TaskAssigneeSelector } from './assignee/task-assignee-selector';
-import { Textarea } from '../ui/textarea';
-import { Label } from '../ui/label';
 import { TaskTitleField } from './title/task-title-field';
+import { TaskDescriptionField } from './description/task-description-field';
 
 export type TaskDetailsProps = {
   task: TaskObject;
@@ -31,9 +30,6 @@ export function TaskDetails({ task }: TaskDetailsProps) {
 
   const taskDeleteCommandObj = taskDeleteCommand(task.id);
 
-  const [description, setDescription] = useState<string>(
-    task.description || '',
-  );
 
   function handleStatusChange(newStatus: TaskStatus) {
     if (newStatus !== task.status) {
@@ -41,11 +37,6 @@ export function TaskDetails({ task }: TaskDetailsProps) {
     }
   }
 
-  function handleDescriptionBlur() {
-    if (description !== task.description) {
-      dispatch(updateTask({ id: task.id, updates: { description } }));
-    }
-  }
 
   useEffect(() => {
     const unregisterTaskDelete = registerCommand(taskDeleteCommand(task.id));
@@ -116,16 +107,19 @@ export function TaskDetails({ task }: TaskDetailsProps) {
             <span className="font-medium">Unassigned</span>
           )}
         </div>
-        <div className="grid w-full gap-3">
-          <Label htmlFor="description">Description</Label>
-          <Textarea
-            id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            onBlur={handleDescriptionBlur}
-            placeholder="Add a description..."
-          />
-        </div>
+        <TaskDescriptionField
+          value={task.description || ''}
+          onChange={(newDescription) => {
+            if (newDescription !== task.description) {
+              dispatch(
+                updateTask({
+                  id: task.id,
+                  updates: { description: newDescription },
+                }),
+              );
+            }
+          }}
+        />
       </div>
     </div>
   );
