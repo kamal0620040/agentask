@@ -1,4 +1,5 @@
-import { useState } from 'react';
+"use client";
+import { useEffect, useState } from 'react';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 
@@ -18,6 +19,11 @@ export function TaskDescriptionField({
   placeholder = 'Add a description...',
 }: TaskDescriptionFieldProps) {
   const [buffer, setBuffer] = useState(value);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setBuffer(value);
+  }, [value]);
 
   function handleBlur() {
     if (buffer !== value) {

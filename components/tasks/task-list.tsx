@@ -10,7 +10,6 @@ import {
   updateTaskStatus,
 } from '@/store/features/tasks/tasks-slice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { Button } from '../ui/button';
 import { TaskItem } from './task-item';
 import { TaskToolbar } from './task-toolbar';
 import { useCommandsRegistry } from '../commands/commands-context';
@@ -25,17 +24,16 @@ import { TaskDetails } from './task-details';
 import { ScrollArea } from '../ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { TaskStatusIcon } from './status/task-status-icon';
-import { RiAddLine, RiCheckboxBlankCircleLine } from 'react-icons/ri';
+import { RiCheckboxBlankCircleLine } from 'react-icons/ri';
 import { taskStatusRecord } from './status/task-status-list';
+import NewTaskDialog from './new-task-dialog';
 
 export function TaskList() {
   const {registerCommand} = useCommandsRegistry();
   const dispatch = useAppDispatch();
   const tasks = useAppSelector(selectAllTasks);
-  console.log("task", tasks)
   const taskCounts = useAppSelector(selectTaskCountsByStatus);
   const selectedTask = useAppSelector(selectSelectedTask);
-
 
   useEffect(() => {
     const taskSelectNextCommandItem = taskSelectNextCommand();
@@ -66,10 +64,7 @@ export function TaskList() {
       <div
         className={cn('flex items-center justify-between w-full', 'py-2 px-2')}>
         <div className="flex items-center gap-2">
-          <Button variant="default" size="sm">
-            <RiAddLine className="size-4" />
-            New issue
-          </Button>
+          <NewTaskDialog />
           {selectedTask && <TaskToolbar />}
         </div>
         <div className="flex items-center gap-6 text-sm text-muted-foreground shrink-0">
