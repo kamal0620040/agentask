@@ -10,7 +10,7 @@ import {
 } from './task-commands';;
 import { selectHasNextTask, selectHasPreviousTask } from '@/store/features/tasks/tasks-selector';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
-import { formatShortcut } from '@/lib/utils';
+import { formatShortcut } from '@/components/shortcuts/format-shortcut';
 
 export function TaskToolbar() {
   const dispatch = useAppDispatch();

@@ -13,12 +13,13 @@ import {
   updateTaskStatus,
 } from '@/store/features/tasks/tasks-slice';
 import { Button } from '../ui/button';
-import { cn, formatShortcut } from '@/lib/utils';
+import { cn } from '@/lib/utils';
 import { TooltipTrigger, TooltipContent, Tooltip } from '../ui/tooltip';
 import { TaskStatusSelector } from './status/task-status-selector';
 import { TaskAssigneeSelector } from './assignee/task-assignee-selector';
 import { TaskTitleField } from './title/task-title-field';
 import { TaskDescriptionField } from './description/task-description-field';
+import { formatShortcut } from '@/components/shortcuts/format-shortcut';
 
 export type TaskDetailsProps = {
   task: TaskObject;

@@ -38,7 +38,7 @@ export function TaskTitleField({
 
     return (
         <Input role="textbox" ref={titleRef} contentEditable onInput={(e) => setBuffer(e.currentTarget.value || '')} onBlur={() => {
-            if(buffer !== value) {
+            if(buffer !== value && buffer !== '') {
                 onChange(buffer);
             }
             
