@@ -11,6 +11,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['backend', 'security', 'auth'],
     createdAt: '2023-10-16',
     updatedAt: '2023-10-18',
+    priority: 1,
   },
   {
     id: 'MUL-100',
@@ -21,6 +22,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['database', 'migration'],
     createdAt: '2023-10-16',
     updatedAt: '2023-10-16',
+    priority: 2,
   },
   {
     id: 'MUL-99',
@@ -31,6 +33,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['frontend', 'responsive', 'bugfix'],
     createdAt: '2023-10-15',
     updatedAt: '2023-10-15',
+    priority: 3,
   },
   {
     id: 'MUL-98',
@@ -41,6 +44,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['documentation', 'api'],
     createdAt: '2023-10-10',
     updatedAt: '2023-10-14',
+    priority: 4,
   },
   {
     id: 'MUL-97',
@@ -50,7 +54,8 @@ export const mockTasks: TaskRaw[] = [
     assigneeId: assignees[8].id,
     labels: ['performance', 'optimization'],
     createdAt: '2023-10-12',
-    updatedAt: '2023-10-17'
+    updatedAt: '2023-10-17',
+    priority: 4,
   },
   {
     id: 'MUL-96',
@@ -61,6 +66,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['testing', 'quality'],
     createdAt: '2023-10-11',
     updatedAt: '2023-10-11',
+    priority: 2,
   },
   {
     id: 'MUL-95',
@@ -71,6 +77,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['ux', 'onboarding', 'frontend'],
     createdAt: '2023-10-09',
     updatedAt: '2023-10-16',
+    priority: 3,
   },
   {
     id: 'MUL-94',
@@ -81,6 +88,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['monitoring', 'errors'],
     createdAt: '2023-10-08',
     updatedAt: '2023-10-13',
+    priority: 3,
   },
   {
     id: 'MUL-93',
@@ -91,6 +99,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['ui', 'theme', 'accessibility'],
     createdAt: '2023-10-07',
     updatedAt: '2023-10-07',
+    priority: 1,
   },
   {
     id: 'MUL-90',
@@ -100,7 +109,8 @@ export const mockTasks: TaskRaw[] = [
     assigneeId: assignees[3].id,
     labels: ['backend', 'notifications', 'email'],
     createdAt: '2023-10-06',
-    updatedAt: '2023-10-15'
+    updatedAt: '2023-10-15',
+    priority: 2,
   },
   {
     id: 'MUL-89',
@@ -110,7 +120,8 @@ export const mockTasks: TaskRaw[] = [
     assigneeId: assignees[4].id,
     labels: ['search', 'backend', 'elasticsearch'],
     createdAt: '2023-10-05',
-    updatedAt: '2023-10-05'
+    updatedAt: '2023-10-05',
+    priority: 4,
   },
   {
     id: 'MUL-88',
@@ -121,6 +132,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['process', 'documentation'],
     createdAt: '2023-10-04',
     updatedAt: '2023-10-10',
+    priority: 4,
   },
   {
     id: 'MUL-87',
@@ -131,6 +143,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['devops', 'ci/cd', 'automation'],
     createdAt: '2023-10-03',
     updatedAt: '2023-10-08',
+    priority: 2,
   },
   {
     id: 'MUL-86',
@@ -141,6 +154,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['frontend', 'profile', 'ui'],
     createdAt: '2023-10-02',
     updatedAt: '2023-10-14',
+    priority: 1,
   },
   {
     id: 'MUL-84',
@@ -151,6 +165,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['backend', 'cache', 'performance'],
     createdAt: '2023-10-01',
     updatedAt: '2023-10-01',
+    priority: 2,
   },
   {
     id: 'MUL-83',
@@ -160,7 +175,8 @@ export const mockTasks: TaskRaw[] = [
     assigneeId: assignees[9].id,
     labels: ['security', 'audit'],
     createdAt: '2023-09-30',
-    updatedAt: '2023-09-30'
+    updatedAt: '2023-09-30',
+    priority: 4,
   },
   {
     id: 'MUL-82',
@@ -171,6 +187,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['payment', 'stripe', 'backend'],
     createdAt: '2023-09-29',
     updatedAt: '2023-10-05',
+    priority: 2,
   },
   {
     id: 'MUL-81',
@@ -181,6 +198,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['analytics', 'dashboard', 'frontend'],
     createdAt: '2023-09-28',
     updatedAt: '2023-10-12',
+    priority: 1,
   },
   {
     id: 'MUL-80',
@@ -191,6 +209,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['frontend', 'upload', 'files'],
     createdAt: '2023-09-27',
     updatedAt: '2023-10-03',
+    priority: 3,
   },
   {
     id: 'MUL-79',
@@ -201,6 +220,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['accessibility', 'wcag', 'frontend'],
     createdAt: '2023-09-26',
     updatedAt: '2023-09-26',
+    priority: 4,
   },
   {
     id: 'MUL-78',
@@ -211,6 +231,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['backup', 'devops', 'data'],
     createdAt: '2023-09-25',
     updatedAt: '2023-09-30',
+    priority: 3,
   },
   {
     id: 'MUL-76',
@@ -221,6 +242,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['api', 'security', 'backend'],
     createdAt: '2023-09-24',
     updatedAt: '2023-09-24',
+    priority: 1,
   },
   {
     id: 'MUL-75',
@@ -231,6 +253,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['mobile', 'react-native', 'prototype'],
     createdAt: '2023-09-23',
     updatedAt: '2023-10-01',
+    priority: 2,
   },
   {
     id: 'MUL-74',
@@ -241,6 +264,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['i18n', 'translation', 'frontend'],
     createdAt: '2023-09-22',
     updatedAt: '2023-09-22',
+    priority: 4,
   },
   {
     id: 'MUL-73',
@@ -251,6 +275,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['webhooks', 'integration', 'backend'],
     createdAt: '2023-09-21',
     updatedAt: '2023-10-11',
+    priority: 3,
   },
   {
     id: 'MUL-72',
@@ -261,6 +286,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['logging', 'elk', 'monitoring'],
     createdAt: '2023-09-20',
     updatedAt: '2023-09-28',
+    priority: 4,
   },
   {
     id: 'MUL-71',
@@ -271,6 +297,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['social', 'integration', 'oauth'],
     createdAt: '2023-09-19',
     updatedAt: '2023-09-19',
+    priority: 2,
   },
   {
     id: 'MUL-70',
@@ -281,6 +308,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['monitoring', 'performance', 'newrelic'],
     createdAt: '2023-09-18',
     updatedAt: '2023-09-25',
+    priority: 3,
   },
   {
     id: 'MUL-69',
@@ -291,6 +319,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['database', 'optimization', 'indexing'],
     createdAt: '2023-09-17',
     updatedAt: '2023-10-09',
+    priority: 2,
   },
   {
     id: 'MUL-68',
@@ -301,6 +330,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['components', 'storybook', 'frontend'],
     createdAt: '2023-09-16',
     updatedAt: '2023-09-16',
+    priority: 1,
   },
   {
     id: 'MUL-67',
@@ -311,6 +341,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['api', 'versioning', 'backend'],
     createdAt: '2023-09-15',
     updatedAt: '2023-09-22',
+    priority: 3,
   },
   {
     id: 'MUL-66',
@@ -321,6 +352,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['realtime', 'websockets', 'notifications'],
     createdAt: '2023-09-14',
     updatedAt: '2023-10-08',
+    priority: 2,
   },
   {
     id: 'MUL-65',
@@ -331,6 +363,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['testing', 'performance', 'load'],
     createdAt: '2023-09-13',
     updatedAt: '2023-09-13',
+    priority: 3,
   },
   {
     id: 'MUL-64',
@@ -341,6 +374,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['cms', 'content', 'admin'],
     createdAt: '2023-09-12',
     updatedAt: '2023-09-20',
+    priority: 4,
   },
   {
     id: 'MUL-63',
@@ -351,6 +385,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['visualization', 'charts', 'frontend'],
     createdAt: '2023-09-11',
     updatedAt: '2023-09-11',
+    priority: 2,
   },
   {
     id: 'MUL-62',
@@ -361,6 +396,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['forms', 'validation', 'frontend'],
     createdAt: '2023-09-10',
     updatedAt: '2023-09-18',
+    priority: 3,
   },
   {
     id: 'MUL-61',
@@ -371,6 +407,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['admin', 'redesign', 'ui'],
     createdAt: '2023-09-09',
     updatedAt: '2023-10-06',
+    priority: 4,
   },
   {
     id: 'MUL-60',
@@ -381,6 +418,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['architecture', 'microservices', 'planning'],
     createdAt: '2023-09-08',
     updatedAt: '2023-09-08',
+    priority: 2,
   },
   {
     id: 'MUL-59',
@@ -391,6 +429,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['feedback', 'user-experience', 'frontend'],
     createdAt: '2023-09-07',
     updatedAt: '2023-09-07',
+    priority: 1,
   },
   {
     id: 'MUL-58',
@@ -401,6 +440,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['docker', 'containerization', 'devops'],
     createdAt: '2023-09-06',
     updatedAt: '2023-09-14',
+    priority: 2,
   },
   {
     id: 'MUL-57',
@@ -411,6 +451,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['optimization', 'bundling', 'frontend'],
     createdAt: '2023-09-05',
     updatedAt: '2023-10-04',
+    priority: 3,
   },
   {
     id: 'MUL-56',
@@ -421,6 +462,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['health-check', 'monitoring', 'backend'],
     createdAt: '2023-09-04',
     updatedAt: '2023-09-11',
+    priority: 4,
   },
   {
     id: 'MUL-55',
@@ -431,6 +473,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['pwa', 'progressive', 'frontend'],
     createdAt: '2023-09-03',
     updatedAt: '2023-09-03',
+    priority: 2,
   },
   {
     id: 'MUL-54',
@@ -441,6 +484,7 @@ export const mockTasks: TaskRaw[] = [
     labels: ['feature-flags', 'rollout', 'backend'],
     createdAt: '2023-09-02',
     updatedAt: '2023-09-15',
+    priority: 2,
   },
   {
     id: 'MUL-53',
@@ -450,7 +494,8 @@ export const mockTasks: TaskRaw[] = [
     assigneeId: assignees[8].id,
     labels: ['testing', 'automation', 'cypress'],
     createdAt: '2023-09-01',
-    updatedAt: '2023-10-07'
+    updatedAt: '2023-10-07',
+    priority: 3,
   },
   {
     id: 'MUL-52',
@@ -461,5 +506,6 @@ export const mockTasks: TaskRaw[] = [
     labels: ['documentation', 'website', 'examples'],
     createdAt: '2023-08-31',
     updatedAt: '2023-08-31',
+    priority: 1,
   },
 ];

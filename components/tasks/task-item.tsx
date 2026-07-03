@@ -22,12 +22,16 @@ import { RiProgress4Line, RiUser2Fill } from 'react-icons/ri';
 import { TaskStatusCombobox } from './status/task-status-combobox';
 import { TaskAssigneeCombobox } from './assignee/task-assignee-combobox';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { TaskPriorityIcon } from '../priority/task-priority-icon';
+import { TaskPriorityCombobox } from '../priority/task-priority-combobox';
+import { TaskPriority } from '@/types/task';
 
 interface TaskItemProps {
   task: TaskObject;
   onAssigneeChange: (assigneeId: string) => void;
   onStatusChange: (status: TaskStatus) => void;
   onDelete: (id: string) => void;
+  onPriorityChange: (priority: TaskPriority) => void;
   isSelected?: boolean;
 }
 
@@ -35,6 +39,7 @@ export function TaskItem({
   task,
   onStatusChange,
   onAssigneeChange,
+  onPriorityChange,
   onDelete,
   isSelected = false,
 }: TaskItemProps) {
@@ -46,6 +51,9 @@ export function TaskItem({
 
   const [statusSubOpen, setStatusSubOpen] = useState(false);
   const [assigneeSubOpen, setAssigneeSubOpen] = useState(false);
+
+  const [priorityOpen, setPriorityOpen] = useState(false);
+  const [prioritySubOpen, setPrioritySubOpen] = useState(false);
   
     
   useEffect(() => {
@@ -73,6 +81,26 @@ export function TaskItem({
             onClick={() => {
               dispatch(setSelectedTask(task.id));
             }}>
+              <Popover open={priorityOpen} onOpenChange={setPriorityOpen}>
+              <PopoverTrigger asChild>
+                <button
+                  className="shrink-0 text-xs font-medium px-1.5 py-0.5"
+                  aria-label="Change priority">
+                  <TaskPriorityIcon priority={task.priority} />
+                </button>
+              </PopoverTrigger>
+              <PopoverContent side="right" className="w-[220px] p-0">
+                <TaskPriorityCombobox
+                  onSelect={(priority) => {
+                    onPriorityChange(priority);
+                    setPriorityOpen(false);
+                  }}
+                />
+              </PopoverContent>
+            </Popover>
+            <span className="text-xs text-muted-foreground font-mono font-medium w-14">
+              {task.id}
+            </span>
             <Popover open={statusOpen} onOpenChange={setStatusOpen}>
               <PopoverTrigger asChild>
                 <button className="shrink-0" aria-label="Change task status">
@@ -88,11 +116,6 @@ export function TaskItem({
                 />
               </PopoverContent>
             </Popover>
-            <div className="flex items-center gap-2 shrink-0">
-              <span className="text-xs text-muted-foreground font-mono font-medium w-14">
-                {task.id}
-              </span>
-            </div>
             <div className="flex-1 min-w-0">
               <span
                 className={cn(
@@ -173,6 +196,25 @@ export function TaskItem({
               onSelect={(assigneeId) => {
                 onAssigneeChange(assigneeId);
                 setAssigneeSubOpen(false);
+              }}
+            />
+          </ContextMenuSubContent>
+        </ContextMenuSub>
+        <ContextMenuSub
+          open={prioritySubOpen}
+          onOpenChange={setPrioritySubOpen}>
+          <ContextMenuSubTrigger>
+            <TaskPriorityIcon
+              priority={2}
+              className="size-4 text-muted-foreground"
+            />
+            <span className="ml-2">Priority</span>
+          </ContextMenuSubTrigger>
+          <ContextMenuSubContent className="p-0 w-56">
+            <TaskPriorityCombobox
+              onSelect={(priority) => {
+                onPriorityChange(priority);
+                setPrioritySubOpen(false);
               }}
             />
           </ContextMenuSubContent>

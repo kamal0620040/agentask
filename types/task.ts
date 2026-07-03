@@ -6,11 +6,14 @@ export interface TaskAssignee {
   avatar?: string;
 };
 
+export type TaskPriority = 0 | 1 | 2 | 3 | 4;
+
 export interface TaskRaw {
   id: string;
   title: string;
   description?: string;
   status: TaskStatus;
+  priority: TaskPriority;
   assigneeId?: string;
   labels?: string[];
   createdAt: string;

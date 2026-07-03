@@ -14,9 +14,10 @@ import { TaskAssigneeSelector } from './assignee/task-assignee-selector';
 import { TaskStatusSelector } from './status/task-status-selector';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { selectAllTasks } from '@/store/features/tasks/tasks-selector';
-import { TaskAssignee, TaskRaw, TaskStatus } from '@/types/task';
+import { TaskAssignee, TaskRaw, TaskStatus, TaskPriority } from '@/types/task';
 import { RiAddLine } from 'react-icons/ri';
 import { addTask, setSelectedTask } from '@/store/features/tasks/tasks-slice';
+import { TaskPrioritySelector } from '../priority/task-priority-selector';
 
 function getTodayDateString() {
   return new Date().toISOString().slice(0, 10);
@@ -44,6 +45,7 @@ const NewTaskDialog = () => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [status, setStatus] = useState<TaskStatus>('todo');
+    const [priority, setPriority] = useState<TaskPriority>(0);
     const [assignee, setAssignee] = useState<TaskAssignee | null>(null);
 
     const nextId = useMemo(() => {
@@ -55,6 +57,7 @@ const NewTaskDialog = () => {
       setDescription('');
       setStatus('todo');
       setAssignee(null);
+      setPriority(0);
     }
     
     function handleOpenChange(val: boolean) {
@@ -72,6 +75,7 @@ const NewTaskDialog = () => {
         title: title.trim() || 'Untitled',
         description: description,
         status,
+        priority,
         assigneeId: assignee?.id,
         labels: [],
         createdAt,
@@ -106,6 +110,7 @@ const NewTaskDialog = () => {
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <TaskAssigneeSelector value={assignee} onChange={(val) => setAssignee(val)} />
           <TaskStatusSelector value={status} onChange={(val) => setStatus(val)} />
+          <TaskPrioritySelector value={priority} onChange={(p) => setPriority(p)} />
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={() => setOpen(false)}>
