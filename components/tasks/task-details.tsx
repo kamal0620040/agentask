@@ -84,7 +84,7 @@ export function TaskDetails({ task }: TaskDetailsProps) {
               variant="outline"
               size="icon"
               onClick={() => {
-                dispatch(taskDeleteCommandObj.action());
+                taskDeleteCommandObj.action();
               }}
               aria-label="Delete"
               className="gap-2">

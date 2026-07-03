@@ -5,6 +5,7 @@ import {
   selectNextTask,
   selectPreviousTask,
 } from '@/store/features/tasks/tasks-slice';
+import { store } from '@/store/store';
 import { RiArrowDownSLine, RiArrowUpSLine, RiDeleteBinLine, RiForbidLine } from 'react-icons/ri';
 
 export const TaskDeleteCommandIcon = RiDeleteBinLine;
@@ -15,7 +16,7 @@ export const taskDeleteCommand:CommandCreator = (id: string) => ({
   shortcut: 'd',
   group: 'tasks',
   description: 'Delete the selected task',
-  action: () => deleteTask(id),
+  action: () => store.dispatch(deleteTask(id)),
 });
 
 export const TaskUnselectCommandIcon = RiForbidLine;
@@ -26,7 +27,7 @@ export const taskUnselectCommand: CommandCreator = () => ({
   shortcut: 'escape',
   group: 'tasks',
   description: 'Unselect the selected task',
-  action: () => clearSelectedTask(),
+  action: () => store.dispatch(clearSelectedTask()),
 });
 
 export const TaskSelectNextCommandIcon = RiArrowDownSLine;
@@ -37,7 +38,7 @@ export const taskSelectNextCommand: CommandCreator = () => ({
   shortcut: 'ArrowDown',
   group: 'tasks',
   description: 'Navigate to the next task',
-  action: () => selectNextTask(),
+  action: () => store.dispatch(selectNextTask()),
 });
 
 export const TaskSelectPreviousCommandIcon = RiArrowUpSLine;
@@ -48,5 +49,5 @@ export const taskSelectPreviousCommand: CommandCreator = () => ({
   shortcut: 'ArrowUp',
   group: 'tasks',
   description: 'Navigate to the previous task',
-  action: () => selectPreviousTask(),
+  action: () => store.dispatch(selectPreviousTask()),
 });

@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useAppSelector } from '@/store/hooks';
 import {
   taskSelectNextCommand,
   TaskSelectNextCommandIcon,
@@ -13,7 +13,6 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import { formatShortcut } from '@/components/shortcuts/format-shortcut';
 
 export function TaskToolbar() {
-  const dispatch = useAppDispatch();
   const hasNextTask = useAppSelector(selectHasNextTask);
   const hasPreviousTask = useAppSelector(selectHasPreviousTask);
 
@@ -28,7 +27,7 @@ export function TaskToolbar() {
             variant="outline"
             size="icon"
             onClick={() => {
-              dispatch(taskSelectNextCommandObj.action());
+              taskSelectNextCommandObj.action();
             }}
             disabled={!hasNextTask}
             aria-label="Next task"
@@ -52,7 +51,7 @@ export function TaskToolbar() {
             variant="outline"
             size="icon"
             onClick={() => {
-              dispatch(taskSelectPreviousCommandObj.action());
+              taskSelectPreviousCommandObj.action();
             }}
             disabled={!hasPreviousTask}
             aria-label="Prev task"
