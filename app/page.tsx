@@ -5,6 +5,7 @@ import { GlobalCommands } from "@/components/global/global-commands";
 import { TaskList } from "@/components/tasks/task-list";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { AiChatSidebar } from "@/components/ai/ai-chat-sidebar";
+import { AiChatProvider } from "@/components/ai/ai-chat-context";
 import { useAppSelector } from "@/store/hooks";
 import { selectAiChatSidebarVisible } from "@/store/features/display/display-selectors";
 import { cn } from "@/lib/utils";
@@ -36,7 +37,9 @@ export default function Home() {
                 defaultSize={'30%'}
                 minSize={'20%'}
                 maxSize={'50%'}>
-                <AiChatSidebar />
+                <AiChatProvider>
+                  <AiChatSidebar />
+                </AiChatProvider>
               </Panel>
             </>
           )}

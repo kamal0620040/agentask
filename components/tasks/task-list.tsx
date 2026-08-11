@@ -39,7 +39,6 @@ export function TaskList() {
 
   const selectedTask: TaskObject | null = useAppSelector(selectSelectedTask);
   const selectedTaskId = useAppSelector(selectSelectedTaskId);
-  const hasSelection = !!selectedTaskId;
   const isDesktop = useMediaQuery('(min-width: 1024px)', true);
 
   function handleDeleteTask(id: string) {
@@ -120,7 +119,7 @@ export function TaskList() {
               <Panel
                 id="desktop-list"
                 minSize={'50%'}
-                defaultSize={hasSelection ? '70%' : '100%'}>
+                defaultSize={selectedTask ? '70%' : '100%'}>
                 {renderListSection()}
               </Panel>
               {selectedTask && (
