@@ -36,12 +36,16 @@ export interface DisplayState {
   visibleFields: TaskDisplayField[];
   sortBy: TaskSortField;
   sortDirection: TaskSortDirection;
+  aiChatSidebarVisible: boolean;
+  sortFieldHidden: boolean;
 }
 
 const initialState: DisplayState = {
   visibleFields: defaultVisibleFields,
   sortBy: 'title',
   sortDirection: 'desc',
+  aiChatSidebarVisible: false,
+  sortFieldHidden: false,
 };
 
 export const displaySlice = createSlice({
@@ -54,9 +58,15 @@ export const displaySlice = createSlice({
 
       if (index === -1) {
         state.visibleFields.push(field);
+        if (field === state.sortBy) {
+          state.sortFieldHidden = false;
+        }
       } else {
         if (field !== 'title') {
           state.visibleFields.splice(index, 1);
+          if (field === state.sortBy) {
+            state.sortFieldHidden = true;
+          }
         }
       }
     },
@@ -68,7 +78,23 @@ export const displaySlice = createSlice({
       state.visibleFields = fields;
     },
     setSortBy: (state, action: PayloadAction<TaskSortField>) => {
-      state.sortBy = action.payload;
+      const newSortField = action.payload;
+      const currentSortField = state.sortBy;
+
+      if (state.sortFieldHidden && currentSortField !== 'title') {
+        const fieldIndex = state.visibleFields.indexOf(currentSortField);
+        if (fieldIndex !== -1) {
+          state.visibleFields.splice(fieldIndex, 1);
+        }
+      }
+
+      const isNewFieldHidden = !state.visibleFields.includes(newSortField);
+      if (isNewFieldHidden) {
+        state.visibleFields.push(newSortField);
+      }
+
+      state.sortBy = newSortField;
+      state.sortFieldHidden = isNewFieldHidden;
     },
     setSortDirection: (state, action: PayloadAction<TaskSortDirection>) => {
       state.sortDirection = action.payload;
@@ -80,6 +106,13 @@ export const displaySlice = createSlice({
       state.visibleFields = [...defaultVisibleFields];
       state.sortBy = initialState.sortBy;
       state.sortDirection = initialState.sortDirection;
+      state.sortFieldHidden = initialState.sortFieldHidden;
+    },
+    toggleAiChatSidebar: (state) => {
+      state.aiChatSidebarVisible = !state.aiChatSidebarVisible;
+    },
+    setAiChatSidebarVisible: (state, action: PayloadAction<boolean>) => {
+      state.aiChatSidebarVisible = action.payload;
     },
   },
 });
@@ -91,6 +124,8 @@ export const {
   setSortDirection,
   toggleSortDirection,
   resetToDefault,
+  toggleAiChatSidebar,
+  setAiChatSidebarVisible,
 } = displaySlice.actions;
 
 export default displaySlice.reducer;

@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { useAppSelector } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import {
   taskRedoCommandCreator,
   taskUndoCommandCreator,
@@ -12,6 +12,11 @@ import {
   selectTasksCanRedo,
   selectTasksCanUndo,
 } from '@/store/features/tasks/tasks-selector';
+import {
+  toggleAiChatSidebar,
+} from '@/store/features/display/display-slice';
+import { selectAiChatSidebarVisible } from '@/store/features/display/display-selectors';
+import { RiArrowRightDoubleLine, RiSparkling2Fill } from 'react-icons/ri';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import { formatShortcut } from '@/components/shortcuts/format-shortcut';
 import TaskCreateDialog from './create/task-create-dialog';
@@ -21,8 +26,10 @@ import { useEffect, useMemo } from 'react';
 
 export function TaskToolbar() {
   const { registerCommand } = useCommands();
+  const dispatch = useAppDispatch();
   const tasksCanUndo = useAppSelector(selectTasksCanUndo);
   const tasksCanRedo = useAppSelector(selectTasksCanRedo);
+  const aiChatSidebarVisible = useAppSelector(selectAiChatSidebarVisible);
 
   const taskUndoCommandObj = useMemo(() => taskUndoCommandCreator(), []);
   const taskRedoCommandObj = useMemo(() => taskRedoCommandCreator(), []);
@@ -39,9 +46,8 @@ export function TaskToolbar() {
 
   return (
     <div className="flex justify-between items-center gap-2 w-full">
-      <TaskCreateDialog />
-      <div className="flex items-center gap-1">
-        <TaskDisplayDropdown />
+      <div className="flex items-center gap-x-0.5">
+        <TaskCreateDialog />
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
@@ -87,6 +93,33 @@ export function TaskToolbar() {
                 {formatShortcut(taskRedoCommandObj.shortcut)}
               </kbd>
             )}
+          </TooltipContent>
+        </Tooltip>
+      </div>
+      <div className="flex items-center gap-x-0.5">
+        <TaskDisplayDropdown />
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="sm"
+              aria-label="Toggle AI Chat"
+              className="gap-1.5"
+              onClick={() => {
+                dispatch(toggleAiChatSidebar());
+              }}>
+              {aiChatSidebarVisible ? (
+                <RiArrowRightDoubleLine className="size-4" />
+              ) : (
+                <>
+                  <RiSparkling2Fill className="size-4" />
+                  <span>Chat</span>
+                </>
+              )}
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <span>Toggle AI Chat</span>
           </TooltipContent>
         </Tooltip>
       </div>

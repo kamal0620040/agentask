@@ -7,6 +7,7 @@ import {
   selectPreviousTask,
 } from '@/store/features/tasks/tasks-slice';
 import { store } from '@/store/store';
+import { resetToDefault } from '@/store/features/display/display-slice';
 import { MdAssignmentInd, MdSignalCellular4Bar } from 'react-icons/md';
 import {
   RiArrowDownSLine,
@@ -17,6 +18,7 @@ import {
   RiEqualizerFill,
   RiForbidLine,
   RiProgress4Line,
+  RiRefreshLine,
   RiStickyNoteAddLine,
 } from 'react-icons/ri';
 
@@ -85,6 +87,22 @@ export const taskDisplayPropertiesCommandCreator: CommandCreator = (
 ) => ({
   ...taskDisplayPropertiesCommandData,
   action: () => func(),
+  commandPalette: true,
+});
+
+// Reset display to default
+export const TaskDisplayResetCommandIcon = RiRefreshLine;
+export const taskDisplayResetCommandData: CommandData = {
+  id: 'task.display.reset',
+  name: 'Reset to default display',
+  icon: TaskDisplayResetCommandIcon,
+  shortcut: 'Cmd+Shift+R',
+  group: 'tasks',
+  description: 'Reset display options to default settings',
+};
+export const taskDisplayResetCommandCreator: CommandCreator = () => ({
+  ...taskDisplayResetCommandData,
+  action: () => store.dispatch(resetToDefault()),
   commandPalette: true,
 });
 
