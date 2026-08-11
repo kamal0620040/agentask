@@ -1,5 +1,5 @@
 import { CommandPalette } from "@/components/commands/command-palette";
-import { CommandsInitializer } from "@/components/commands/commands-initializer";
+import { GlobalCommands } from "@/components/global/global-commands";
 import { TaskList } from "@/components/tasks/task-list";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { cn } from "@/lib/utils";
@@ -10,7 +10,7 @@ export default function Home() {
       <div className="flex items-center justify-between gap-2 p-2">
         <h1 className="text-base tracking-wide">Agentask</h1>
         <div className="flex items-center gap-2">
-          <CommandsInitializer />
+          <GlobalCommands />
           <CommandPalette />
           <ThemeToggle />
         </div>

@@ -42,8 +42,10 @@ function getNextTaskId(existingIds: string[]): string {
   return `MUL-${maxNum + 1}`;
 }
 
+const commandScope = 'create-dialog';
+
 const TaskCreateDialog = () => {
-    const { registerCommand } = useCommands();
+    const { registerCommand, setScope, clearScope } = useCommands();
     const dispatch = useAppDispatch();
     const tasks = useAppSelector(selectAllTasks);
     const [open, setOpen] = useState(false);
@@ -65,6 +67,16 @@ const TaskCreateDialog = () => {
       }),
       [],
     );
+
+    useEffect(() => {
+      if (open) {
+        setScope({ name: commandScope, allowGlobalKeybindings: false });
+
+        return () => {
+          clearScope();
+        };
+      }
+    }, [open, setScope, clearScope]);
 
     useEffect(() => {
       const unregisterDialogOpen = registerCommand(openCommand);
@@ -135,9 +147,9 @@ const TaskCreateDialog = () => {
           />
         </div>
         <div className="flex items-center gap-2 text-sm text-muted-foreground -ml-2">
-          <TaskStatusSelector value={status} onChange={(val) => setStatus(val)} />
-          <TaskPrioritySelector value={priority} onChange={(p) => setPriority(p)} />
-          <TaskAssigneeSelector value={assigneeId} onChange={(val) => setAssigneeId(val)} />
+          <TaskStatusSelector commandScope={commandScope} value={status} onChange={(val) => setStatus(val)} />
+          <TaskPrioritySelector commandScope={commandScope} value={priority} onChange={(p) => setPriority(p)} />
+          <TaskAssigneeSelector commandScope={commandScope} value={assigneeId} onChange={(val) => setAssigneeId(val)} />
         </div>
         <DialogFooter>
           <Button variant="ghost" onClick={() => setOpen(false)}>

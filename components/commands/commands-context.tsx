@@ -10,13 +10,18 @@ import React, {
   useCallback,
 } from 'react';
 import { Command } from '@/components/commands/types';
-import { commandsRegistry } from './commands-registry';
+import { commandsRegistry, ScopeConfig, ScopeParam } from './commands-registry';
+import { useKeyboardShortcuts } from '@/lib/use-keyboard-shortcuts';
 
 interface CommandsContextValue {
   commands: Command[];
-  getCommandsByGroup: (group: string) => Command[];
-  registerCommand: (command: Command) => () => void;
-  unregisterCommand: (commandId: string) => void;
+  registerCommand: (
+    command: Command,
+    scope?: ScopeConfig['name'],
+  ) => () => void;
+  unregisterCommand: (commandId: string, scope?: ScopeConfig['name']) => void;
+  setScope: (scope: ScopeParam) => void;
+  clearScope: () => void;
 }
 
 const CommandsContext = createContext<CommandsContextValue | undefined>(
@@ -30,10 +35,12 @@ interface CommandsProviderProps {
 export function CommandsProvider({ children }: CommandsProviderProps) {
   const [commands, setCommands] = useState<Command[]>([]);
 
+  useKeyboardShortcuts();
+
   useEffect(() => {
-    const updateCommands = () => {
+    function updateCommands() {
       setCommands(commandsRegistry.getAllCommands());
-    };
+    }
 
     // Initial load
     updateCommands();
@@ -42,35 +49,44 @@ export function CommandsProvider({ children }: CommandsProviderProps) {
     const unsubscribe = commandsRegistry.subscribe(updateCommands);
 
     return () => {
-        unsubscribe();
+      unsubscribe();
     };
   }, []);
 
-  const getCommandsByGroup = useCallback(
-    (group: string) => commands.filter((command) => command.group === group),
-    [commands],
+  const registerCommand = useCallback(
+    (command: Command, scope?: ScopeConfig['name']) => {
+      commandsRegistry.register(command, scope);
+      return () => {
+        commandsRegistry.unregister(command.id, scope);
+      };
+    },
+    [],
   );
 
-  const registerCommand = useCallback((command: Command) => {
-    commandsRegistry.register(command);
+  const unregisterCommand = useCallback(
+    (commandId: string, scope?: ScopeConfig['name']) => {
+      commandsRegistry.unregister(commandId, scope);
+    },
+    [],
+  );
 
-    return () => {
-      commandsRegistry.unregister(command.id);
-    }
+  const setScope = useCallback((scope: ScopeParam) => {
+    commandsRegistry.setScope(scope);
   }, []);
 
-  const unregisterCommand = useCallback((commandId: string) => {
-    commandsRegistry.unregister(commandId);
+  const clearScope = useCallback(() => {
+    commandsRegistry.clearScope();
   }, []);
 
   const contextValue = useMemo(
     () => ({
       commands,
-      getCommandsByGroup,
       registerCommand,
       unregisterCommand,
+      setScope,
+      clearScope,
     }),
-    [commands, getCommandsByGroup, registerCommand, unregisterCommand],
+    [commands, registerCommand, unregisterCommand, setScope, clearScope],
   );
 
   return (

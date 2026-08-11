@@ -58,13 +58,11 @@ export function TaskDetails({ task }: TaskDetailsProps) {
 
   useEffect(() => {
     const unregisterTaskDelete = registerCommand(taskDeleteCommand);
-    const unregisterTaskUnselect = registerCommand(taskUnselectCommand);
 
     return () => {
       unregisterTaskDelete();
-      unregisterTaskUnselect();
     };
-  }, [registerCommand, taskDeleteCommand, taskUnselectCommand]);
+  }, [registerCommand, taskDeleteCommand]);
 
   function handleAssigneeChange(assigneeId: string) {
     if (assigneeId !== task.assignee?.id) {

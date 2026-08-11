@@ -8,7 +8,7 @@ export const themeToggleCommandData: CommandData = {
   id: 'theme.toggle',
   name: 'Toggle theme',
   icon: RiMacbookLine,
-  shortcut: 't',
+  shortcut: 'T',
   group: 'theme',
   description: 'Switch between light and dark mode',
 };
@@ -23,7 +23,7 @@ export const themeSetDarkCommandData: CommandData = {
   id: 'theme.dark',
   name: 'Set dark theme',
   icon: RiMoonLine,
-  shortcut: 'd',
+  shortcut: 'D',
   group: 'theme',
   description: 'Set to dark theme',
 };
@@ -38,7 +38,7 @@ export const themeSetLightCommandData: CommandData = {
   id: 'theme.light',
   name: 'Set light theme',
   icon: RiSunLine,
-  shortcut: 'l',
+  shortcut: 'L',
   group: 'theme',
   description: 'Set to light theme',
 };

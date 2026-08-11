@@ -14,11 +14,13 @@ import { RiArrowDownSLine } from 'react-icons/ri';
 import Image from 'next/image';
 
 export type TaskAssigneeSelectorProps = {
+  commandScope?: string;
   value?: string | null;
   onChange: (assigneeId: string) => void;
 };
 
 export function TaskAssigneeSelector({
+  commandScope,
   value,
   onChange,
 }: TaskAssigneeSelectorProps) {
@@ -36,12 +38,12 @@ export function TaskAssigneeSelector({
   );
 
   useEffect(() => {
-    const unregisterAssignee = registerCommand(openCommand);
+    const unregisterAssignee = registerCommand(openCommand, commandScope);
 
     return () => {
       unregisterAssignee();
     };
-  }, [registerCommand, openCommand]);
+  }, [registerCommand, openCommand, commandScope]);
 
   const assignee = assignees.find((a) => a.id === value) || null;
 
@@ -71,7 +73,7 @@ export function TaskAssigneeSelector({
           <RiArrowDownSLine className="w-3 h-3 ml-1 opacity-60" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent align="start" className="p-0 w-56">
+      <PopoverContent align="start" className="p-0 w-48">
         <TaskAssigneeCombobox
           onSelect={(assigneeId) => {
             onChange(assigneeId);
