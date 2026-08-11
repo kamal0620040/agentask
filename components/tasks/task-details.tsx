@@ -1,10 +1,13 @@
 import { TaskStatus, type TaskObject } from '@/types/task';
 import { useCommands } from '../commands/commands-context';
-import { useAppDispatch } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import {
   taskDeleteCommand,
   TaskDeleteCommandIcon,
-  taskUnselectCommand,
+  taskSelectNextCommand,
+  TaskSelectNextCommandIcon,
+  taskSelectPreviousCommand,
+  TaskSelectPreviousCommandIcon,
 } from './task-commands';
 import { useEffect } from 'react';
 import {
@@ -13,6 +16,10 @@ import {
   updateTaskPriority,
   updateTaskStatus,
 } from '@/store/features/tasks/tasks-slice';
+import {
+  selectHasNextTask,
+  selectHasPreviousTask,
+} from '@/store/features/tasks/tasks-selector';
 import { Button } from '../ui/button';
 import { cn } from '@/lib/utils';
 import { TooltipTrigger, TooltipContent, Tooltip } from '../ui/tooltip';
@@ -31,6 +38,10 @@ export function TaskDetails({ task }: TaskDetailsProps) {
   const { registerCommand } = useCommands();
   const dispatch = useAppDispatch();
 
+  const hasNextTask = useAppSelector(selectHasNextTask);
+  const hasPreviousTask = useAppSelector(selectHasPreviousTask);
+  const taskSelectNextCommandObj = taskSelectNextCommand();
+  const taskSelectPreviousCommandObj = taskSelectPreviousCommand();
   const taskDeleteCommandObj = taskDeleteCommand(task.id);
 
   function handleStatusChange(newStatus: TaskStatus) {
@@ -41,11 +52,9 @@ export function TaskDetails({ task }: TaskDetailsProps) {
 
   useEffect(() => {
     const unregisterTaskDelete = registerCommand(taskDeleteCommand(task.id));
-    const unRegisterTaskUnselect = registerCommand(taskUnselectCommand());
 
     return () => {
       unregisterTaskDelete();
-      unRegisterTaskUnselect();
     };
   }, [registerCommand, task.id]);
 
@@ -65,28 +74,40 @@ export function TaskDetails({ task }: TaskDetailsProps) {
       <div
         className={cn('flex items-center gap-2 justify-between', 'py-2 px-2')}>
         <div className="flex items-center gap-2">
-          <TaskStatusSelector
-            value={task.status}
-            onChange={handleStatusChange}
-          />
-          <TaskPrioritySelector
-            value={task.priority}
-            onChange={(p) => {
-              if (p !== task.priority) {
-                dispatch(updateTaskPriority({ id: task.id, priority: p }));
-              }
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => {
+              taskSelectNextCommandObj.action();
             }}
-          />
+            disabled={!hasNextTask}
+            aria-label={taskSelectNextCommandObj.name}
+            className="gap-2"
+            title={taskSelectNextCommandObj.shortcut}>
+            <TaskSelectNextCommandIcon className="size-4" />
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => {
+              taskSelectPreviousCommandObj.action();
+            }}
+            disabled={!hasPreviousTask}
+            aria-label={taskSelectPreviousCommandObj.name}
+            className="gap-2"
+            title={taskSelectPreviousCommandObj.shortcut}>
+            <TaskSelectPreviousCommandIcon className="size-4" />
+          </Button>
         </div>
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
-              variant="outline"
+              variant="ghost"
               size="icon"
               onClick={() => {
                 taskDeleteCommandObj.action();
               }}
-              aria-label="Delete"
+              aria-label={taskDeleteCommandObj.name}
               className="gap-2">
               <TaskDeleteCommandIcon className="size-4" />
             </Button>
@@ -110,8 +131,19 @@ export function TaskDetails({ task }: TaskDetailsProps) {
             dispatch(updateTask({ id: task.id, updates: { title: value } }))
           }
         />
-        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-          <span>Assignee:</span>
+        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4 -ml-2">
+          <TaskStatusSelector
+            value={task.status}
+            onChange={handleStatusChange}
+          />
+          <TaskPrioritySelector
+            value={task.priority}
+            onChange={(p) => {
+              if (p !== task.priority) {
+                dispatch(updateTaskPriority({ id: task.id, priority: p }));
+              }
+            }}
+          />
           <TaskAssigneeSelector
             value={task.assignee?.id ?? undefined}
             onChange={handleAssigneeChange}

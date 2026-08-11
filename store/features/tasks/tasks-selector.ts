@@ -24,10 +24,13 @@ function augmentTasksWithAssignee(tasks: TaskRaw[]): Array<TaskObject> {
   return tasks.map(augmentTaskWithAssignee).flatMap((task) => task || []);
 }
 
-export const selectRawTasks = (state: RootState) => state.tasks.tasks;
+export const selectRawTasks = (state: RootState) => state.tasks.present.tasks;
 export const selectAllTasks = createSelector([selectRawTasks], (tasks) => augmentTasksWithAssignee(tasks));
 
-export const selectSelectedTaskId = (state: RootState) => state.tasks.selectedTaskId;
+export const selectSelectedTaskId = (state: RootState) => state.tasks.present.selectedTaskId;
+
+export const selectTasksCanUndo = (state: RootState) => state.tasks.past.length > 0;
+export const selectTasksCanRedo = (state: RootState) => state.tasks.future.length > 0;
 
 // Task by ID selector
 export const selectTaskById = (taskId: string) => createSelector([selectAllTasks], (tasks) => tasks.find(task => task.id === taskId));

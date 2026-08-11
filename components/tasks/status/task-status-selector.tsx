@@ -49,7 +49,7 @@ export function TaskStatusSelector({
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
-          variant="outline"
+          variant="ghost"
           size="sm"
           className={cn('flex items-center gap-1', className)}
           aria-label={openCommand.name}

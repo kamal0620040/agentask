@@ -1,3 +1,4 @@
+import { ActionCreators as UndoActionCreators } from 'redux-undo';
 import { CommandCreator } from '@/actions/types';
 import {
   clearSelectedTask,
@@ -10,11 +11,37 @@ import { MdAssignmentInd, MdSignalCellular4Bar } from 'react-icons/md';
 import {
   RiArrowDownSLine,
   RiArrowUpSLine,
-  RiDeleteBinLine,
+  RiArrowGoBackLine,
+  RiArrowGoForwardLine,
+  RiDeleteBin7Line,
   RiForbidLine,
   RiProgress4Line,
   RiStickyNoteAddLine,
 } from 'react-icons/ri';
+
+export const TaskUndoCommandIcon = RiArrowGoBackLine;
+export const taskUndoCommand: CommandCreator = () => ({
+  id: 'task.undo',
+  name: 'Undo task change',
+  icon: TaskUndoCommandIcon,
+  shortcut: 'Cmd+Z',
+  group: 'tasks',
+  description: 'Undo the last task change',
+  action: () => store.dispatch(UndoActionCreators.undo()),
+  commandPalette: true,
+});
+
+export const TaskRedoCommandIcon = RiArrowGoForwardLine;
+export const taskRedoCommand: CommandCreator = () => ({
+  id: 'task.redo',
+  name: 'Redo task change',
+  icon: TaskRedoCommandIcon,
+  shortcut: 'Cmd+Shift+Z',
+  group: 'tasks',
+  description: 'Redo the last undone task change',
+  action: () => store.dispatch(UndoActionCreators.redo()),
+  commandPalette: true,
+});
 
 export const TaskCreateDialogOpenCommandIcon = RiStickyNoteAddLine;
 export const taskCreateDialogOpenCommand: CommandCreator = (func: () => void) => ({
@@ -64,12 +91,12 @@ export const taskAssigneeOpenCommand: CommandCreator = (func: () => void) => ({
   commandPalette: true,
 });
 
-export const TaskDeleteCommandIcon = RiDeleteBinLine;
+export const TaskDeleteCommandIcon = RiDeleteBin7Line;
 export const taskDeleteCommand:CommandCreator = (id: string) => ({
   id: 'task.delete',
   name: 'Delete task',
   icon: TaskDeleteCommandIcon,
-  shortcut: 'd',
+  shortcut: 'Cmd+Backspace',
   group: 'tasks',
   description: 'Delete the selected task',
   action: () => store.dispatch(deleteTask(id)),

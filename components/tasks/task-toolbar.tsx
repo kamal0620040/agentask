@@ -3,95 +3,91 @@
 import { Button } from '@/components/ui/button';
 import { useAppSelector } from '@/store/hooks';
 import {
-  taskSelectNextCommand,
-  TaskSelectNextCommandIcon,
-  taskSelectPreviousCommand,
-  TaskSelectPreviousCommandIcon,
+  taskRedoCommand,
+  taskUndoCommand,
+  TaskRedoCommandIcon,
+  TaskUndoCommandIcon,
 } from './task-commands';
 import {
-  selectHasNextTask,
-  selectHasPreviousTask,
-  selectSelectedTask,
+  selectTasksCanRedo,
+  selectTasksCanUndo,
 } from '@/store/features/tasks/tasks-selector';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import { formatShortcut } from '@/components/shortcuts/format-shortcut';
-import NewTaskDialog from './new-task-dialog';
+import TaskCreateDialog from './create/task-create-dialog';
 import { useCommands } from '../commands/commands-context';
 import { useEffect } from 'react';
 
 export function TaskToolbar() {
   const { registerCommand } = useCommands();
-  const hasNextTask = useAppSelector(selectHasNextTask);
-  const hasPreviousTask = useAppSelector(selectHasPreviousTask);
-  const selectedTask = useAppSelector(selectSelectedTask);
+  const tasksCanUndo = useAppSelector(selectTasksCanUndo);
+  const tasksCanRedo = useAppSelector(selectTasksCanRedo);
 
-  const taskSelectNextCommandObj = taskSelectNextCommand();
-  const taskSelectPreviousCommandObj = taskSelectPreviousCommand();
+  const taskUndoCommandObj = taskUndoCommand();
+  const taskRedoCommandObj = taskRedoCommand();
 
   useEffect(() => {
-    const unregisterNext = registerCommand(taskSelectNextCommand());
-    const unregisterPrevious = registerCommand(taskSelectPreviousCommand());
+    const unregisterUndo = registerCommand(taskUndoCommand());
+    const unregisterRedo = registerCommand(taskRedoCommand());
 
     return () => {
-      unregisterNext();
-      unregisterPrevious();
+      unregisterUndo();
+      unregisterRedo();
     };
   }, [registerCommand]);
 
   return (
-    <div className="flex items-center gap-2">
-      <NewTaskDialog />
-      {selectedTask && (
-        <>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() => {
-                  taskSelectNextCommandObj.action();
-                }}
-                disabled={!hasNextTask}
-                aria-label={taskSelectNextCommandObj.name}
-                className="gap-2">
-                <TaskSelectNextCommandIcon className="size-4" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <span>{taskSelectNextCommandObj.name}</span>
-              {taskSelectNextCommandObj.shortcut && (
-                <kbd className="ml-2 rounded bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
-                  {formatShortcut(taskSelectNextCommandObj.shortcut)}
-                </kbd>
-              )}
-            </TooltipContent>
-          </Tooltip>
+    <div className="flex justify-between items-center gap-2 w-full">
+      <TaskCreateDialog />
+      <div className="flex">
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => {
+                taskUndoCommandObj.action();
+              }}
+              disabled={!tasksCanUndo}
+              aria-label={taskUndoCommandObj.name}
+              className="gap-2">
+              <TaskUndoCommandIcon className="size-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <span>{taskUndoCommandObj.name}</span>
+            {taskUndoCommandObj.shortcut && (
+              <kbd className="ml-2 rounded bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
+                {formatShortcut(taskUndoCommandObj.shortcut)}
+              </kbd>
+            )}
+          </TooltipContent>
+        </Tooltip>
 
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() => {
-                  taskSelectPreviousCommandObj.action();
-                }}
-                disabled={!hasPreviousTask}
-                aria-label={taskSelectPreviousCommandObj.name}
-                className="gap-2">
-                <TaskSelectPreviousCommandIcon className="size-4" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <span>{taskSelectPreviousCommandObj.name}</span>
-              {taskSelectPreviousCommandObj.shortcut && (
-                <kbd className="ml-2 rounded bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
-                  {formatShortcut(taskSelectPreviousCommandObj.shortcut)}
-                </kbd>
-              )}
-            </TooltipContent>
-          </Tooltip>
-        </>
-      )}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => {
+                taskRedoCommandObj.action();
+              }}
+              disabled={!tasksCanRedo}
+              aria-label={taskRedoCommandObj.name}
+              className="gap-2">
+              <TaskRedoCommandIcon className="size-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <span>{taskRedoCommandObj.name}</span>
+            {taskRedoCommandObj.shortcut && (
+              <kbd className="ml-2 rounded bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
+                {formatShortcut(taskRedoCommandObj.shortcut)}
+              </kbd>
+            )}
+          </TooltipContent>
+        </Tooltip>
+      </div>
     </div>
   );
 }

@@ -1,3 +1,4 @@
+import undoable, { groupByActionTypes } from 'redux-undo';
 import { mockTasks } from '@/data/mock-tasks';
 import { TaskRaw, TaskStatus, TaskPriority } from '@/types/task';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
@@ -193,4 +194,8 @@ export const {
   selectPreviousTask,
 } = taskSlice.actions;
 
-export default taskSlice.reducer;
+const undoableTasks = undoable(taskSlice.reducer, {
+  groupBy: groupByActionTypes([selectNextTask.type, selectPreviousTask.type]),
+});
+
+export default undoableTasks;

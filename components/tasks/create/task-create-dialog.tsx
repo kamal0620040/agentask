@@ -6,26 +6,28 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '../ui/dialog';
-import { Button } from '../ui/button';
-import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
-import { TaskTitleField } from './title/task-title-field';
-import { TaskDescriptionField } from './description/task-description-field';
-import { TaskAssigneeSelector } from './assignee/task-assignee-selector';
-import { TaskStatusSelector } from './status/task-status-selector';
+} from '../../ui/dialog';
+import { Button } from '../../ui/button';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../../ui/tooltip';
+import { TaskTitleField } from '../title/task-title-field';
+import { TaskDescriptionField } from '../description/task-description-field';
+import { TaskAssigneeSelector } from '../assignee/task-assignee-selector';
+import { TaskStatusSelector } from '../status/task-status-selector';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { selectAllTasks } from '@/store/features/tasks/tasks-selector';
 import { TaskRaw, TaskStatus, TaskPriority } from '@/types/task';
 import { formatShortcut } from '@/components/shortcuts/format-shortcut';
 import { addTask, setSelectedTask } from '@/store/features/tasks/tasks-slice';
-import { TaskPrioritySelector } from '../priority/task-priority-selector';
-import { taskCreateDialogOpenCommand } from './task-commands';
+import { TaskPrioritySelector } from '../../priority/task-priority-selector';
+import { taskCreateDialogOpenCommand } from '../task-commands';
 import { useCommands } from '@/components/commands/commands-context';
 
 function getTodayDateString() {
   return new Date().toISOString().slice(0, 10);
 }
 
+// TODO: Should be globally unique and not depend on existing tasks
+// because undo/redo affects task IDs. Maybe shift it into Redux store
 function getNextTaskId(existingIds: string[]): string {
   let maxNum = 0;
   for (const id of existingIds) {
@@ -40,7 +42,7 @@ function getNextTaskId(existingIds: string[]): string {
   return `MUL-${maxNum + 1}`;
 }
 
-const NewTaskDialog = () => {
+const TaskCreateDialog = () => {
     const { registerCommand } = useCommands();
     const dispatch = useAppDispatch();
     const tasks = useAppSelector(selectAllTasks);
@@ -132,13 +134,13 @@ const NewTaskDialog = () => {
             placeholder="Add a description..."
           />
         </div>
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <TaskAssigneeSelector value={assigneeId} onChange={(val) => setAssigneeId(val)} />
+        <div className="flex items-center gap-2 text-sm text-muted-foreground -ml-2">
           <TaskStatusSelector value={status} onChange={(val) => setStatus(val)} />
           <TaskPrioritySelector value={priority} onChange={(p) => setPriority(p)} />
+          <TaskAssigneeSelector value={assigneeId} onChange={(val) => setAssigneeId(val)} />
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={() => setOpen(false)}>
+          <Button variant="ghost" onClick={() => setOpen(false)}>
             Cancel
           </Button>
           <Button variant="default" onClick={handleCreate} disabled={false}>
@@ -150,4 +152,4 @@ const NewTaskDialog = () => {
   );
 };
 
-export default NewTaskDialog;
+export default TaskCreateDialog;

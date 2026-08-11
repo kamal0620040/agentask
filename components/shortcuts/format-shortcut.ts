@@ -1,14 +1,15 @@
 export function formatShortcut(shortcut: string) {
   return shortcut
+    .toLowerCase()
     .replace('cmd', '⌘')
     .replace('shift', '⇧')
     .replace('alt', '⌥')
     .replace('ctrl', '⌃')
-    .replace('ArrowUp', '↑')
-    .replace('ArrowDown', '↓')
+    .replace('arrowup', '↑')
+    .replace('arrowdown', '↓')
     .replace('enter', '↵')
-    .replace('Escape', 'Esc')
-    .replace('Backspace', '⌫')
-    .replace('+', '')
+    .replace('escape', 'esc')
+    .replace('backspace', '⌫')
+    .replaceAll('+', '')
     .toUpperCase();
 }
