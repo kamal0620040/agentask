@@ -142,7 +142,6 @@ const TaskCreateDialog = () => {
           <TaskDescriptionField
             value={description}
             onChange={(val) => setDescription(val)}
-            id="new-task-description"
             placeholder="Add a description..."
           />
         </div>
