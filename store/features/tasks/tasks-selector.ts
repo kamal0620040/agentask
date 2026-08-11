@@ -1,6 +1,6 @@
 import { assignees } from "@/data/mock-assignee";
 import { RootState } from "@/store/store";
-import { TaskObject, TaskRaw, TaskStatus, TaskPriority } from "@/types/task";
+import { TaskObject, TaskRaw, TaskStatus, TaskPriority } from "@/components/tasks/types";
 import { createSelector } from "@reduxjs/toolkit";
 
 function augmentTaskWithAssignee(task: TaskRaw | null): TaskObject | null {

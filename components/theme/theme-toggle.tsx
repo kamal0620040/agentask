@@ -6,7 +6,11 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setTheme } from '@/store/features/theme/theme-slice';
-import { RiMoonLine, RiSunLine } from 'react-icons/ri';
+import {
+  themeSetDarkCommandData,
+  themeSetLightCommandData,
+  themeToggleCommandData,
+} from './theme-commands';
 
 export function ThemeToggle() {
   const dispatch = useAppDispatch();
@@ -20,8 +24,8 @@ export function ThemeToggle() {
   if (!mounted) {
     return (
       <Button variant="outline" size="icon" disabled>
-        <RiSunLine className="size-[1.2rem]" />
-        <span className="sr-only">Toggle theme</span>
+        <themeSetDarkCommandData.icon className="size-[1.2rem]" />
+        <span className="sr-only">{themeToggleCommandData.name}</span>
       </Button>
     );
   }
@@ -37,13 +41,15 @@ export function ThemeToggle() {
       size="icon"
       onClick={handleThemeToggle}>
       {theme === 'light' ? (
-        <RiSunLine className={cn('size-[1.2rem] transition-all duration-300')} />
+        <themeSetLightCommandData.icon
+          className={cn('size-[1.2rem] transition-all duration-300')}
+        />
       ) : (
-        <RiMoonLine
+        <themeSetDarkCommandData.icon
           className={cn('size-[1.2rem] w-[1.2rem] transition-all duration-300')}
         />
       )}
-      <span className="sr-only">Toggle theme</span>
+      <span className="sr-only">{themeToggleCommandData.name}</span>
     </Button>
   );
 }

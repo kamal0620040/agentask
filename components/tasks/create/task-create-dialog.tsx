@@ -15,11 +15,11 @@ import { TaskAssigneeSelector } from '../assignee/task-assignee-selector';
 import { TaskStatusSelector } from '../status/task-status-selector';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { selectAllTasks } from '@/store/features/tasks/tasks-selector';
-import { TaskRaw, TaskStatus, TaskPriority } from '@/types/task';
+import { TaskRaw, TaskStatus, TaskPriority } from '@/components/tasks/types';
 import { formatShortcut } from '@/components/shortcuts/format-shortcut';
 import { addTask, setSelectedTask } from '@/store/features/tasks/tasks-slice';
 import { TaskPrioritySelector } from '../../priority/task-priority-selector';
-import { taskCreateDialogOpenCommand } from '../task-commands';
+import { taskCreateDialogOpenCommandCreator } from '../task-commands';
 import { useCommands } from '@/components/commands/commands-context';
 
 function getTodayDateString() {
@@ -60,9 +60,9 @@ const TaskCreateDialog = () => {
 
     const openCommand = useMemo(
       () =>
-        taskCreateDialogOpenCommand(() => {
-          setOpen(true);
-        }),
+      taskCreateDialogOpenCommandCreator(() => {
+        setOpen(true);
+      }),
       [],
     );
 

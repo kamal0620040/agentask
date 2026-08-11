@@ -20,7 +20,7 @@ import {
 import { cn } from '@/lib/utils';
 import { useCommands } from '@/components/commands/commands-context';
 import {
-  taskDisplayPropertiesCommand,
+  taskDisplayPropertiesCommandCreator,
   TaskDisplayPropertiesCommandIcon,
 } from '../task-commands';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
@@ -77,7 +77,7 @@ export function TaskDisplayDropdown() {
 
   const openCommand = useMemo(
     () =>
-      taskDisplayPropertiesCommand(() => {
+      taskDisplayPropertiesCommandCreator(() => {
         setOpen(true);
       }),
     [setOpen],
@@ -95,8 +95,6 @@ export function TaskDisplayDropdown() {
     dispatch(toggleField(field));
   }
 
-  const taskDisplayPropertiesCommandObj = taskDisplayPropertiesCommand();
-
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <Tooltip>
@@ -113,10 +111,10 @@ export function TaskDisplayDropdown() {
           </TooltipTrigger>
         </PopoverTrigger>
         <TooltipContent>
-          <span>{taskDisplayPropertiesCommandObj.name}</span>
-          {taskDisplayPropertiesCommandObj.shortcut && (
+          <span>{openCommand.name}</span>
+          {openCommand.shortcut && (
             <kbd className="ml-2 rounded bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
-              {formatShortcut(taskDisplayPropertiesCommandObj.shortcut)}
+              {formatShortcut(openCommand.shortcut)}
             </kbd>
           )}
         </TooltipContent>

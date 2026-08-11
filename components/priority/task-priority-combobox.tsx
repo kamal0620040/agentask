@@ -1,4 +1,4 @@
-import { TaskPriority } from '@/types/task';
+import { TaskPriority } from '@/components/tasks/types';
 import {
   Command,
   CommandGroup,

@@ -3,8 +3,8 @@
 import { Button } from '@/components/ui/button';
 import { useAppSelector } from '@/store/hooks';
 import {
-  taskRedoCommand,
-  taskUndoCommand,
+  taskRedoCommandCreator,
+  taskUndoCommandCreator,
   TaskRedoCommandIcon,
   TaskUndoCommandIcon,
 } from './task-commands';
@@ -17,25 +17,25 @@ import { formatShortcut } from '@/components/shortcuts/format-shortcut';
 import TaskCreateDialog from './create/task-create-dialog';
 import { TaskDisplayDropdown } from './display/task-display-dropdown';
 import { useCommands } from '../commands/commands-context';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
 export function TaskToolbar() {
   const { registerCommand } = useCommands();
   const tasksCanUndo = useAppSelector(selectTasksCanUndo);
   const tasksCanRedo = useAppSelector(selectTasksCanRedo);
 
-  const taskUndoCommandObj = taskUndoCommand();
-  const taskRedoCommandObj = taskRedoCommand();
+  const taskUndoCommandObj = useMemo(() => taskUndoCommandCreator(), []);
+  const taskRedoCommandObj = useMemo(() => taskRedoCommandCreator(), []);
 
   useEffect(() => {
-    const unregisterUndo = registerCommand(taskUndoCommand());
-    const unregisterRedo = registerCommand(taskRedoCommand());
+    const unregisterUndo = registerCommand(taskUndoCommandObj);
+    const unregisterRedo = registerCommand(taskRedoCommandObj);
 
     return () => {
       unregisterUndo();
       unregisterRedo();
     };
-  }, [registerCommand]);
+  }, [registerCommand, taskUndoCommandObj, taskRedoCommandObj]);
 
   return (
     <div className="flex justify-between items-center gap-2 w-full">

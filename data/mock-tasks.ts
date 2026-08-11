@@ -1,4 +1,4 @@
-import { TaskRaw } from '@/types/task';
+import { TaskRaw } from '@/components/tasks/types';
 import { assignees } from './mock-assignee';
 
 export const mockTasks: TaskRaw[] = [

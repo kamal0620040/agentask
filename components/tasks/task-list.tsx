@@ -22,14 +22,15 @@ import { ScrollArea } from '../ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { useEffect } from 'react';
 import {
-  taskSelectNextCommand,
-  taskSelectPreviousCommand,
-  taskUnselectCommand,
+  taskSelectNextCommandCreator,
+  taskSelectPreviousCommandCreator,
+  taskUnselectCommandCreator,
 } from './task-commands';
 import { useCommands } from '../commands/commands-context';
 import { TaskStatusSummary } from './status/task-status-summary';
-import type { TaskObject } from '@/types/task';
+import type { TaskObject } from '@/components/tasks/types';
 import { TaskEmptyState } from './task-empty-state';
+import { useMediaQuery } from '@/lib/use-media-query';
 
 export function TaskList() {
   const { registerCommand } = useCommands();
@@ -39,6 +40,7 @@ export function TaskList() {
   const selectedTask: TaskObject | null = useAppSelector(selectSelectedTask);
   const selectedTaskId = useAppSelector(selectSelectedTaskId);
   const hasSelection = !!selectedTaskId;
+  const isDesktop = useMediaQuery('(min-width: 1024px)', true);
 
   function handleDeleteTask(id: string) {
     dispatch(deleteTask(id));
@@ -74,10 +76,16 @@ export function TaskList() {
     );
   }
 
+  const taskDetails = selectedTask ? (
+    <TaskDetails key={selectedTask.id} task={selectedTask} />
+  ) : null;
+
   useEffect(() => {
-    const unregisterNext = registerCommand(taskSelectNextCommand());
-    const unregisterPrevious = registerCommand(taskSelectPreviousCommand());
-    const unregisterTaskUnselect = registerCommand(taskUnselectCommand());
+    const unregisterNext = registerCommand(taskSelectNextCommandCreator());
+    const unregisterPrevious = registerCommand(
+      taskSelectPreviousCommandCreator(),
+    );
+    const unregisterTaskUnselect = registerCommand(taskUnselectCommandCreator());
 
     return () => {
       unregisterNext();
@@ -99,28 +107,30 @@ export function TaskList() {
         <TaskToolbar />
       </div>
       <div className="h-0 grow">
-        <div className="hidden md:block h-full">
-          <Group orientation="horizontal">
-            <Panel minSize={'50%'} defaultSize={hasSelection ? '70%' : '100%'}>
-              {renderListSection()}
-            </Panel>
-            {selectedTask && (
-              <>
-                <Separator className="w-px bg-border cursor-col-resize" />
-                <Panel minSize={'20%'}>
-                  <TaskDetails key={selectedTask.id} task={selectedTask} />
-                </Panel>
-              </>
-            )}
-          </Group>
-        </div>
-        <div className="md:hidden h-full">
-          {selectedTask ? (
-            <TaskDetails key={selectedTask.id} task={selectedTask} />
+        <Group orientation="horizontal">
+          {isDesktop ? (
+            <>
+              <Panel
+                id="desktop-list"
+                minSize={'50%'}
+                defaultSize={hasSelection ? '70%' : '100%'}>
+                {renderListSection()}
+              </Panel>
+              {selectedTask && (
+                <>
+                  <Separator className="w-px bg-border cursor-col-resize" />
+                  <Panel id="desktop-details" minSize={'20%'}>
+                    {taskDetails}
+                  </Panel>
+                </>
+              )}
+            </>
           ) : (
-            renderListSection()
+            <Panel id="mobile" minSize={'0%'} defaultSize={'100%'}>
+              {selectedTask ? taskDetails : renderListSection()}
+            </Panel>
           )}
-        </div>
+        </Group>
       </div>
     </div>
   );

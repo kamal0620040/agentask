@@ -1,6 +1,6 @@
 import undoable, { groupByActionTypes } from 'redux-undo';
 import { mockTasks } from '@/data/mock-tasks';
-import { TaskRaw } from '@/types/task';
+import { TaskRaw } from '@/components/tasks/types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface TaskState {

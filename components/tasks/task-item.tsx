@@ -1,6 +1,6 @@
 'use client';
 import { cn } from '@/lib/utils';
-import { TaskObject, TaskStatus } from '@/types/task';
+import { TaskObject, TaskStatus } from '@/components/tasks/types';
 import {
   ContextMenuTrigger,
   ContextMenuContent,
@@ -19,9 +19,9 @@ import { Badge } from '../ui/badge';
 import { TaskStatusIcon } from './status/task-status-icon';
 import {
   TaskDeleteCommandIcon,
-  taskAssigneeOpenCommand,
-  taskPriorityOpenCommand,
-  taskStatusOpenCommand,
+  taskAssigneeOpenCommandCreator,
+  taskPriorityOpenCommandCreator,
+  taskStatusOpenCommandCreator,
 } from './task-commands';
 import Image from 'next/image';
 import { TaskStatusCombobox } from './status/task-status-combobox';
@@ -29,7 +29,7 @@ import { TaskAssigneeCombobox } from './assignee/task-assignee-combobox';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { TaskPriorityIcon } from '../priority/task-priority-icon';
 import { TaskPriorityCombobox } from '../priority/task-priority-combobox';
-import { TaskPriority } from '@/types/task';
+import { TaskPriority } from '@/components/tasks/types';
 import {
   formatTaskDate,
   formatTaskTimestamp,
@@ -73,9 +73,9 @@ export function TaskItem({
   const [priorityOpen, setPriorityOpen] = useState(false);
   const [prioritySubOpen, setPrioritySubOpen] = useState(false);
 
-  const statusOpenCommandObject = taskStatusOpenCommand(() => {});
-  const assigneeOpenCommandObject = taskAssigneeOpenCommand(() => {});
-  const priorityOpenCommandObject = taskPriorityOpenCommand(() => {});
+  const statusOpenCommandObject = taskStatusOpenCommandCreator(() => {});
+  const assigneeOpenCommandObject = taskAssigneeOpenCommandCreator(() => {});
+  const priorityOpenCommandObject = taskPriorityOpenCommandCreator(() => {});
   
     
   useEffect(() => {

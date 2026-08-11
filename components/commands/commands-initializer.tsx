@@ -1,7 +1,7 @@
 "use client";
 import { useCommands } from "./commands-context";
 import { useEffect } from "react";
-import { themeSetDarkCommand, themeSetLightCommand, themeToggleCommand } from "@/components/theme/theme-commands";
+import { themeSetDarkCommandCreator, themeSetLightCommandCreator, themeToggleCommandCreator } from "@/components/theme/theme-commands";
 import { useKeyboardShortcuts } from "@/lib/use-keyboard-shortcuts";
 
 export function CommandsInitializer() {
@@ -12,9 +12,9 @@ export function CommandsInitializer() {
 
     useEffect(() => {
         // Register theme commands
-        const unregisterThemeToggle = registerCommand(themeToggleCommand());
-        const unregisterThemeSetLight = registerCommand(themeSetLightCommand());
-        const unregisterThemeSetDark = registerCommand(themeSetDarkCommand());
+        const unregisterThemeToggle = registerCommand(themeToggleCommandCreator());
+        const unregisterThemeSetLight = registerCommand(themeSetLightCommandCreator());
+        const unregisterThemeSetDark = registerCommand(themeSetDarkCommandCreator());
 
         return () => {
             // Unregister theme commands on unmount

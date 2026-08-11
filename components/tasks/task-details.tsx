@@ -1,16 +1,16 @@
-import { TaskStatus, type TaskObject } from '@/types/task';
+import { TaskStatus, type TaskObject } from '@/components/tasks/types';
 import { useCommands } from '../commands/commands-context';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import {
-  taskDeleteCommand,
+  taskDeleteCommandCreator,
   TaskDeleteCommandIcon,
-  taskSelectNextCommand,
+  taskSelectNextCommandCreator,
   TaskSelectNextCommandIcon,
-  taskSelectPreviousCommand,
+  taskSelectPreviousCommandCreator,
   TaskSelectPreviousCommandIcon,
-  taskUnselectCommand,
+  taskUnselectCommandCreator,
 } from './task-commands';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { RiContractRightLine } from 'react-icons/ri';
 import {
   assignTask,
@@ -40,10 +40,13 @@ export function TaskDetails({ task }: TaskDetailsProps) {
 
   const hasNextTask = useAppSelector(selectHasNextTask);
   const hasPreviousTask = useAppSelector(selectHasPreviousTask);
-  const taskSelectNextCommandObj = taskSelectNextCommand();
-  const taskSelectPreviousCommandObj = taskSelectPreviousCommand();
-  const taskDeleteCommandObj = taskDeleteCommand(task.id);
-  const taskUnselectCommandObj = taskUnselectCommand();
+  const taskSelectNextCommand = taskSelectNextCommandCreator();
+  const taskSelectPreviousCommand = taskSelectPreviousCommandCreator();
+  const taskDeleteCommand = useMemo(
+    () => taskDeleteCommandCreator(task.id),
+    [task.id],
+  );
+  const taskUnselectCommand = useMemo(() => taskUnselectCommandCreator(), []);
 
   function handleStatusChange(newStatus: TaskStatus) {
     if (newStatus !== task.status) {
@@ -54,12 +57,14 @@ export function TaskDetails({ task }: TaskDetailsProps) {
   }
 
   useEffect(() => {
-    const unregisterTaskDelete = registerCommand(taskDeleteCommand(task.id));
+    const unregisterTaskDelete = registerCommand(taskDeleteCommand);
+    const unregisterTaskUnselect = registerCommand(taskUnselectCommand);
 
     return () => {
       unregisterTaskDelete();
+      unregisterTaskUnselect();
     };
-  }, [registerCommand, task.id]);
+  }, [registerCommand, taskDeleteCommand, taskUnselectCommand]);
 
   function handleAssigneeChange(assigneeId: string) {
     if (assigneeId !== task.assignee?.id) {
@@ -81,24 +86,24 @@ export function TaskDetails({ task }: TaskDetailsProps) {
             variant="outline"
             size="icon"
             onClick={() => {
-              taskSelectNextCommandObj.action();
+              taskSelectNextCommand.action();
             }}
             disabled={!hasNextTask}
-            aria-label={taskSelectNextCommandObj.name}
+            aria-label={taskSelectNextCommand.name}
             className="gap-2"
-            title={taskSelectNextCommandObj.shortcut}>
+            title={taskSelectNextCommand.shortcut}>
             <TaskSelectNextCommandIcon className="size-4" />
           </Button>
           <Button
             variant="outline"
             size="icon"
             onClick={() => {
-              taskSelectPreviousCommandObj.action();
+              taskSelectPreviousCommand.action();
             }}
             disabled={!hasPreviousTask}
-            aria-label={taskSelectPreviousCommandObj.name}
+            aria-label={taskSelectPreviousCommand.name}
             className="gap-2"
-            title={taskSelectPreviousCommandObj.shortcut}>
+            title={taskSelectPreviousCommand.shortcut}>
             <TaskSelectPreviousCommandIcon className="size-4" />
           </Button>
         </div>
@@ -109,18 +114,18 @@ export function TaskDetails({ task }: TaskDetailsProps) {
               variant="ghost"
               size="icon"
               onClick={() => {
-                taskDeleteCommandObj.action();
+                taskDeleteCommand.action();
               }}
-              aria-label={taskDeleteCommandObj.name}
+              aria-label={taskDeleteCommand.name}
               className="gap-2">
               <TaskDeleteCommandIcon className="size-4" />
             </Button>
           </TooltipTrigger>
           <TooltipContent>
-            <span>{taskDeleteCommandObj.name}</span>
-            {taskDeleteCommandObj.shortcut && (
+            <span>{taskDeleteCommand.name}</span>
+            {taskDeleteCommand.shortcut && (
               <kbd className="ml-2 rounded bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
-                {formatShortcut(taskDeleteCommandObj.shortcut)}
+                {formatShortcut(taskDeleteCommand.shortcut)}
               </kbd>
             )}
           </TooltipContent>
@@ -131,18 +136,18 @@ export function TaskDetails({ task }: TaskDetailsProps) {
               variant="ghost"
               size="icon"
               onClick={() => {
-                taskUnselectCommandObj.action();
+                taskUnselectCommand.action();
               }}
-              aria-label={taskUnselectCommandObj.name}
+              aria-label={taskUnselectCommand.name}
               className="gap-2">
               <RiContractRightLine className="size-4" />
             </Button>
           </TooltipTrigger>
           <TooltipContent>
-            <span>{taskUnselectCommandObj.name}</span>
-            {taskUnselectCommandObj.shortcut && (
+            <span>{taskUnselectCommand.name}</span>
+            {taskUnselectCommand.shortcut && (
               <kbd className="ml-2 rounded bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
-                {formatShortcut(taskUnselectCommandObj.shortcut)}
+                {formatShortcut(taskUnselectCommand.shortcut)}
               </kbd>
             )}
           </TooltipContent>
