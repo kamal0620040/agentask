@@ -15,6 +15,7 @@ import {
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import { formatShortcut } from '@/components/shortcuts/format-shortcut';
 import TaskCreateDialog from './create/task-create-dialog';
+import { TaskDisplayDropdown } from './display/task-display-dropdown';
 import { useCommands } from '../commands/commands-context';
 import { useEffect } from 'react';
 
@@ -39,7 +40,8 @@ export function TaskToolbar() {
   return (
     <div className="flex justify-between items-center gap-2 w-full">
       <TaskCreateDialog />
-      <div className="flex">
+      <div className="flex items-center gap-1">
+        <TaskDisplayDropdown />
         <Tooltip>
           <TooltipTrigger asChild>
             <Button

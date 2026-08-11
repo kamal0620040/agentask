@@ -8,13 +8,13 @@ import {
   TaskSelectNextCommandIcon,
   taskSelectPreviousCommand,
   TaskSelectPreviousCommandIcon,
+  taskUnselectCommand,
 } from './task-commands';
 import { useEffect } from 'react';
+import { RiContractRightLine } from 'react-icons/ri';
 import {
   assignTask,
   updateTask,
-  updateTaskPriority,
-  updateTaskStatus,
 } from '@/store/features/tasks/tasks-slice';
 import {
   selectHasNextTask,
@@ -43,10 +43,13 @@ export function TaskDetails({ task }: TaskDetailsProps) {
   const taskSelectNextCommandObj = taskSelectNextCommand();
   const taskSelectPreviousCommandObj = taskSelectPreviousCommand();
   const taskDeleteCommandObj = taskDeleteCommand(task.id);
+  const taskUnselectCommandObj = taskUnselectCommand();
 
   function handleStatusChange(newStatus: TaskStatus) {
     if (newStatus !== task.status) {
-      dispatch(updateTaskStatus({ id: task.id, status: newStatus }));
+      dispatch(
+        updateTask({ id: task.id, updates: { status: newStatus } }),
+      );
     }
   }
 
@@ -72,7 +75,7 @@ export function TaskDetails({ task }: TaskDetailsProps) {
   return (
     <div className={cn('divide-y divide-input')}>
       <div
-        className={cn('flex items-center gap-2 justify-between', 'py-2 px-2')}>
+        className={cn('flex items-center gap-2 justify-between', 'py-2 px-3')}>
         <div className="flex items-center gap-2">
           <Button
             variant="outline"
@@ -99,6 +102,7 @@ export function TaskDetails({ task }: TaskDetailsProps) {
             <TaskSelectPreviousCommandIcon className="size-4" />
           </Button>
         </div>
+        <div className="flex items-center gap-0.5">
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
@@ -121,6 +125,29 @@ export function TaskDetails({ task }: TaskDetailsProps) {
             )}
           </TooltipContent>
         </Tooltip>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => {
+                taskUnselectCommandObj.action();
+              }}
+              aria-label={taskUnselectCommandObj.name}
+              className="gap-2">
+              <RiContractRightLine className="size-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <span>{taskUnselectCommandObj.name}</span>
+            {taskUnselectCommandObj.shortcut && (
+              <kbd className="ml-2 rounded bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
+                {formatShortcut(taskUnselectCommandObj.shortcut)}
+              </kbd>
+            )}
+          </TooltipContent>
+        </Tooltip>
+        </div>
       </div>
 
       <div className={cn(' flex flex-col gap-2  px-3 py-3')}>
@@ -140,7 +167,7 @@ export function TaskDetails({ task }: TaskDetailsProps) {
             value={task.priority}
             onChange={(p) => {
               if (p !== task.priority) {
-                dispatch(updateTaskPriority({ id: task.id, priority: p }));
+                dispatch(updateTask({ id: task.id, updates: { priority: p } }));
               }
             }}
           />

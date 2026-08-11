@@ -106,7 +106,7 @@ const TaskCreateDialog = () => {
       <DialogTrigger asChild>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button aria-label={openCommand.name}>
+            <Button variant="secondary" aria-label={openCommand.name}>
               <openCommand.icon />
               New Issue
             </Button>

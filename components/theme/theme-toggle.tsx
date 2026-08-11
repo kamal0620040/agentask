@@ -32,7 +32,10 @@ export function ThemeToggle() {
   }
 
   return (
-    <Button variant="outline" size="icon" onClick={handleThemeToggle}>
+    <Button
+      variant={theme === 'light' ? 'outline' : 'secondary'}
+      size="icon"
+      onClick={handleThemeToggle}>
       {theme === 'light' ? (
         <RiSunLine className={cn('size-[1.2rem] transition-all duration-300')} />
       ) : (

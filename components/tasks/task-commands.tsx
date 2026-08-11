@@ -14,6 +14,7 @@ import {
   RiArrowGoBackLine,
   RiArrowGoForwardLine,
   RiDeleteBin7Line,
+  RiEqualizerFill,
   RiForbidLine,
   RiProgress4Line,
   RiStickyNoteAddLine,
@@ -51,6 +52,20 @@ export const taskCreateDialogOpenCommand: CommandCreator = (func: () => void) =>
   shortcut: 'C',
   group: 'tasks',
   description: 'Create a new task',
+  action: () => func(),
+  commandPalette: true,
+});
+
+export const TaskDisplayPropertiesCommandIcon = RiEqualizerFill;
+export const taskDisplayPropertiesCommand: CommandCreator = (
+  func: () => void,
+) => ({
+  id: 'task.display_properties',
+  name: 'Show display options',
+  icon: TaskDisplayPropertiesCommandIcon,
+  shortcut: 'Shift+V',
+  group: 'tasks',
+  description: 'Show display options',
   action: () => func(),
   commandPalette: true,
 });
