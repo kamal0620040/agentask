@@ -3,11 +3,11 @@ import type { CommandCreator, CommandData } from '@/components/commands/types';
 import {
   clearSelectedTask,
   deleteTask,
+  resetFieldsToDefault,
   selectNextTask,
   selectPreviousTask,
 } from '@/store/features/tasks/tasks-slice';
 import { store } from '@/store/store';
-import { resetToDefault } from '@/store/features/display/display-slice';
 import { MdAssignmentInd, MdSignalCellular4Bar } from 'react-icons/md';
 import {
   RiArrowDownSLine,
@@ -102,7 +102,7 @@ export const taskDisplayResetCommandData: CommandData = {
 };
 export const taskDisplayResetCommandCreator: CommandCreator = () => ({
   ...taskDisplayResetCommandData,
-  action: () => store.dispatch(resetToDefault()),
+  action: () => store.dispatch(resetFieldsToDefault()),
   commandPalette: true,
 });
 

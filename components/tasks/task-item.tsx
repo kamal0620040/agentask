@@ -12,7 +12,7 @@ import {
   ContextMenu,
 } from '../ui/context-menu';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { selectIsFieldVisible } from '@/store/features/display/display-selectors';
+import { selectIsFieldVisible } from '@/store/features/tasks/tasks-selector';
 import React, { useEffect, useState } from 'react';
 import { setSelectedTask } from '@/store/features/tasks/tasks-slice';
 import { Badge } from '../ui/badge';

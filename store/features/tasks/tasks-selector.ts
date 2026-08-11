@@ -2,6 +2,7 @@ import { assignees } from "@/data/mock-assignee";
 import { RootState } from "@/store/store";
 import { TaskObject, TaskRaw, TaskStatus, TaskPriority } from "@/components/tasks/types";
 import { createSelector } from "@reduxjs/toolkit";
+import { TaskDisplayField, TaskSortDirection } from "./tasks-slice";
 
 function augmentTaskWithAssignee(task: TaskRaw | null): TaskObject | null {
     if (task == null) {
@@ -120,3 +121,29 @@ export const selectHasPreviousTask = createSelector(
     return selectedIndex > 0;
   },
 );
+
+// Display-related selectors
+export const selectVisibleFields = (state: RootState): TaskDisplayField[] =>
+  state.tasks.present.visibleFields;
+
+export const selectIsFieldVisible =
+  (field: TaskDisplayField) =>
+  (state: RootState): boolean =>
+    state.tasks.present.visibleFields.includes(field);
+
+export const selectSortBy = (state: RootState): TaskDisplayField =>
+  state.tasks.present.sortBy;
+
+export const selectSortDirection = (state: RootState): TaskSortDirection =>
+  state.tasks.present.sortDirection;
+
+export const selectFieldLabels = (): Record<TaskDisplayField, string> => ({
+  id: 'ID',
+  priority: 'Priority',
+  status: 'Status',
+  title: 'Title',
+  assignee: 'Assignee',
+  createdAt: 'Created',
+  updatedAt: 'Updated',
+  labels: 'Labels',
+});

@@ -9,7 +9,7 @@ import {
   updateTask,
 } from '@/store/features/tasks/tasks-slice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { selectSortedTasks } from '@/store/features/display/display-selectors';
+import { selectAllTasks } from '@/store/features/tasks/tasks-selector';
 import { TaskItem } from './task-item';
 import { TaskToolbar } from './task-toolbar';
 import {
@@ -35,7 +35,7 @@ import { useMediaQuery } from '@/lib/use-media-query';
 export function TaskList() {
   const { registerCommand } = useCommands();
   const dispatch = useAppDispatch();
-  const tasks: TaskObject[] = useAppSelector(selectSortedTasks);
+  const tasks: TaskObject[] = useAppSelector(selectAllTasks);
 
   const selectedTask: TaskObject | null = useAppSelector(selectSelectedTask);
   const selectedTaskId = useAppSelector(selectSelectedTaskId);

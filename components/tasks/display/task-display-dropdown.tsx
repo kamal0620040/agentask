@@ -10,20 +10,20 @@ import {
 import { Label } from '@/components/ui/label';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import {
-  toggleField,
-  setSortBy,
-  toggleSortDirection,
-  resetToDefault,
+  toggleFieldVisibility,
   TaskDisplayField,
   TaskSortField,
   taskSortFields,
-} from '@/store/features/display/display-slice';
+  setFieldsSortBy,
+  toggleFieldsSortDirection,
+  resetFieldsToDefault,
+} from '@/store/features/tasks/tasks-slice';
 import {
   selectVisibleFields,
   selectFieldLabels,
   selectSortBy,
   selectSortDirection,
-} from '@/store/features/display/display-selectors';
+} from '@/store/features/tasks/tasks-selector';
 import { cn } from '@/lib/utils';
 import { useCommands } from '@/components/commands/commands-context';
 import {
@@ -46,8 +46,8 @@ const allFields: TaskDisplayField[] = [
   'priority',
   'id',
   'status',
-  'labels',
   'assignee',
+  'labels',
   'createdAt',
   'updatedAt',
 ];
@@ -115,20 +115,20 @@ export function TaskDisplayDropdown() {
   }, [registerCommand, openCommand, resetCommand]);
 
   function handleToggleFieldDisplay(field: TaskDisplayField) {
-    dispatch(toggleField(field));
+    dispatch(toggleFieldVisibility(field));
   }
 
   function handleSortBy(field: TaskSortField) {
-    dispatch(setSortBy(field));
+    dispatch(setFieldsSortBy(field));
     setSortOpen(false);
   }
 
   function handleToggleSortDirection() {
-    dispatch(toggleSortDirection());
+    dispatch(toggleFieldsSortDirection());
   }
 
   function handleReset() {
-    dispatch(resetToDefault());
+    dispatch(resetFieldsToDefault());
   }
 
   return (
@@ -224,13 +224,11 @@ export function TaskDisplayDropdown() {
             </div>
           </div>
         </div>
-        <div className="border-t border-border mt-2" />
-        <div className="p-3">
-          <button
-            className="text-xs text-foreground/70 hover:text-foreground cursor-pointer"
-            onClick={handleReset}>
+        <div className="border-t border-border" />
+        <div className="flex items-center justify-end px-2 py-2">
+          <Button size="xs" variant="ghost" onClick={handleReset}>
             Reset
-          </button>
+          </Button>
         </div>
       </PopoverContent>
     </Popover>

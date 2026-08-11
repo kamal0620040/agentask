@@ -15,18 +15,13 @@ export function TaskTitleField({
 }: TaskTitleFieldProps) {
     const titleRef = useRef<HTMLInputElement | null>(null);
     const [buffer, setBuffer] = useState(value);
-    const lastPropValueRef = useRef(value);
+    const [prevValue, setPrevValue] = useState(value);
 
-    // Sync buffer with prop value when it changes
-    useEffect(() => {
-        if (lastPropValueRef.current !== value) {
-            setBuffer(value);
-            if(titleRef.current && titleRef.current.value !== value) {
-                titleRef.current.value = value;
-            }
-            lastPropValueRef.current = value;
-        }
-    }, [value]);
+    // Sync buffer with prop value if it changes from outside
+    if (value !== prevValue) {
+        setPrevValue(value);
+        setBuffer(value);
+    }
 
     // Keep DOM in sync with buffer
     useEffect(() => {
