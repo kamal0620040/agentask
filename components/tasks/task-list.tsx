@@ -13,13 +13,10 @@ import {
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { TaskItem } from './task-item';
 import { TaskToolbar } from './task-toolbar';
-import { useCommandsRegistry } from '../commands/commands-context';
-import { useEffect } from 'react';
-import { taskSelectNextCommand, taskSelectPreviousCommand } from './task-commands';
 import {
   Panel,
    Group,
- Separator,
+  Separator,
 } from 'react-resizable-panels';
 import { TaskDetails } from './task-details';
 import { ScrollArea } from '../ui/scroll-area';
@@ -27,27 +24,12 @@ import { cn } from '@/lib/utils';
 import { TaskStatusIcon } from './status/task-status-icon';
 import { RiCheckboxBlankCircleLine } from 'react-icons/ri';
 import { taskStatusRecord } from './status/task-status-list';
-import NewTaskDialog from './new-task-dialog';
 
 export function TaskList() {
-  const {registerCommand} = useCommandsRegistry();
   const dispatch = useAppDispatch();
   const tasks = useAppSelector(selectAllTasks);
   const taskCounts = useAppSelector(selectTaskCountsByStatus);
   const selectedTask = useAppSelector(selectSelectedTask);
-
-  useEffect(() => {
-    const taskSelectNextCommandItem = taskSelectNextCommand();
-    const taskSelectPreviousCommandItem = taskSelectPreviousCommand();
-
-    const unregisterTaskSelectNext = registerCommand(taskSelectNextCommandItem);
-    const unregisterTaskSelectPrevious = registerCommand(taskSelectPreviousCommandItem);
-
-    return () => {
-      unregisterTaskSelectNext();
-      unregisterTaskSelectPrevious();
-    };
-  }, [registerCommand]);
 
   function handleDeleteTask(id: string) {
     dispatch(deleteTask(id));
@@ -64,28 +46,35 @@ export function TaskList() {
       )}>
       <div
         className={cn('flex items-center justify-between w-full', 'py-2 px-2')}>
-        <div className="flex items-center gap-2">
-          <NewTaskDialog />
-          {selectedTask && <TaskToolbar />}
-        </div>
-        <div className="flex items-center gap-6 text-sm text-muted-foreground shrink-0">
+        <TaskToolbar />
+        <div className="flex items-center gap-3 md:gap-6 text-sm text-muted-foreground shrink-0 px-1">
           <div className="flex items-center gap-2">
             <TaskStatusIcon status='todo' size='lg' />
-            <span className='text-xs'>{taskCounts.todo} {taskStatusRecord.todo.label}</span>
+            <span className='text-xs'>
+              {taskCounts.todo}
+              <span className="max-md:hidden"> {taskStatusRecord.todo.label}</span>
+            </span>
           </div>
           <div className="flex items-center gap-2">
             <TaskStatusIcon status='in-progress' size='lg' />
-            <span className='text-xs'>{taskCounts.inProgress} {taskStatusRecord['in-progress'].label}</span>
+            <span className='text-xs'>
+              {taskCounts.inProgress}
+              <span className="max-md:hidden"> {taskStatusRecord['in-progress'].label}</span>
+            </span>
           </div>
           <div className="flex items-center gap-2">
             <TaskStatusIcon status="in-review" size="lg" />
             <span className="text-xs">
-              {taskCounts.inReview} {taskStatusRecord['in-review'].label}
+              {taskCounts.inReview}
+              <span className="max-md:hidden"> {taskStatusRecord['in-review'].label}</span>
             </span>
           </div>
           <div className="flex items-center gap-2">
             <TaskStatusIcon status='done' size='lg' />
-            <span className='text-xs'>{taskCounts.done} {taskStatusRecord.done.label}</span>
+            <span className='text-xs'>
+              {taskCounts.done}
+              <span className="max-md:hidden"> {taskStatusRecord.done.label}</span>
+            </span>
           </div>
         </div>
       </div>

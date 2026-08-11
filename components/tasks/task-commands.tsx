@@ -6,7 +6,63 @@ import {
   selectPreviousTask,
 } from '@/store/features/tasks/tasks-slice';
 import { store } from '@/store/store';
-import { RiArrowDownSLine, RiArrowUpSLine, RiDeleteBinLine, RiForbidLine } from 'react-icons/ri';
+import { MdAssignmentInd, MdSignalCellular4Bar } from 'react-icons/md';
+import {
+  RiArrowDownSLine,
+  RiArrowUpSLine,
+  RiDeleteBinLine,
+  RiForbidLine,
+  RiProgress4Line,
+  RiStickyNoteAddLine,
+} from 'react-icons/ri';
+
+export const TaskCreateDialogOpenCommandIcon = RiStickyNoteAddLine;
+export const taskCreateDialogOpenCommand: CommandCreator = (func: () => void) => ({
+  id: 'task.create.open',
+  name: 'Create task',
+  icon: TaskCreateDialogOpenCommandIcon,
+  shortcut: 'C',
+  group: 'tasks',
+  description: 'Create a new task',
+  action: () => func(),
+  commandPalette: true,
+});
+
+export const TaskStatusOpenCommandIcon = RiProgress4Line;
+export const taskStatusOpenCommand: CommandCreator = (func: () => void) => ({
+  id: 'task.status.open',
+  name: 'Change status',
+  icon: TaskStatusOpenCommandIcon,
+  shortcut: 'S',
+  group: 'tasks',
+  description: 'Change status of the selected task',
+  action: () => func(),
+  commandPalette: true,
+});
+
+export const TaskPriorityOpenCommandIcon = MdSignalCellular4Bar;
+export const taskPriorityOpenCommand: CommandCreator = (func: () => void) => ({
+  id: 'task.priority.open',
+  name: 'Change priority',
+  icon: TaskPriorityOpenCommandIcon,
+  shortcut: 'P',
+  group: 'tasks',
+  description: 'Change priority of the selected task',
+  action: () => func(),
+  commandPalette: true,
+});
+
+export const TaskAssigneeOpenCommandIcon = MdAssignmentInd;
+export const taskAssigneeOpenCommand: CommandCreator = (func: () => void) => ({
+  id: 'task.assignee.open',
+  name: 'Change assignee',
+  icon: TaskAssigneeOpenCommandIcon,
+  shortcut: 'A',
+  group: 'tasks',
+  description: 'Change assignee of the selected task',
+  action: () => func(),
+  commandPalette: true,
+});
 
 export const TaskDeleteCommandIcon = RiDeleteBinLine;
 export const taskDeleteCommand:CommandCreator = (id: string) => ({
@@ -17,6 +73,7 @@ export const taskDeleteCommand:CommandCreator = (id: string) => ({
   group: 'tasks',
   description: 'Delete the selected task',
   action: () => store.dispatch(deleteTask(id)),
+  commandPalette: true,
 });
 
 export const TaskUnselectCommandIcon = RiForbidLine;
@@ -24,10 +81,11 @@ export const taskUnselectCommand: CommandCreator = () => ({
   id: 'task.unselect',
   name: 'Unselect task',
   icon: TaskUnselectCommandIcon,
-  shortcut: 'escape',
+  shortcut: 'Escape',
   group: 'tasks',
   description: 'Unselect the selected task',
   action: () => store.dispatch(clearSelectedTask()),
+  commandPalette: true,
 });
 
 export const TaskSelectNextCommandIcon = RiArrowDownSLine;
@@ -39,6 +97,7 @@ export const taskSelectNextCommand: CommandCreator = () => ({
   group: 'tasks',
   description: 'Navigate to the next task',
   action: () => store.dispatch(selectNextTask()),
+  commandPalette: false,
 });
 
 export const TaskSelectPreviousCommandIcon = RiArrowUpSLine;
@@ -50,4 +109,5 @@ export const taskSelectPreviousCommand: CommandCreator = () => ({
   group: 'tasks',
   description: 'Navigate to the previous task',
   action: () => store.dispatch(selectPreviousTask()),
+  commandPalette: false,
 });

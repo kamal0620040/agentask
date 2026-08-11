@@ -16,9 +16,13 @@ import { useAppDispatch } from '@/store/hooks';
 import React, { useEffect, useState } from 'react';
 import { setSelectedTask } from '@/store/features/tasks/tasks-slice';
 import { TaskStatusIcon } from './status/task-status-icon';
-import { TaskDeleteCommandIcon } from './task-commands';
+import {
+  TaskDeleteCommandIcon,
+  taskAssigneeOpenCommand,
+  taskPriorityOpenCommand,
+  taskStatusOpenCommand,
+} from './task-commands';
 import Image from 'next/image';
-import { RiProgress4Line, RiUser2Fill } from 'react-icons/ri';
 import { TaskStatusCombobox } from './status/task-status-combobox';
 import { TaskAssigneeCombobox } from './assignee/task-assignee-combobox';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
@@ -54,6 +58,10 @@ export function TaskItem({
 
   const [priorityOpen, setPriorityOpen] = useState(false);
   const [prioritySubOpen, setPrioritySubOpen] = useState(false);
+
+  const statusOpenCommandObject = taskStatusOpenCommand(() => {});
+  const assigneeOpenCommandObject = taskAssigneeOpenCommand(() => {});
+  const priorityOpenCommandObject = taskPriorityOpenCommand(() => {});
   
     
   useEffect(() => {
@@ -119,7 +127,7 @@ export function TaskItem({
             <div className="flex-1 min-w-0">
               <span
                 className={cn(
-                  'text-sm',
+                  'text-sm font-medium',
                   task.status === 'done' &&
                     'line-through text-muted-foreground',
                 )}>
@@ -173,7 +181,7 @@ export function TaskItem({
       <ContextMenuContent className="w-52">
         <ContextMenuSub open={statusSubOpen} onOpenChange={setStatusSubOpen}>
           <ContextMenuSubTrigger>
-            <RiProgress4Line className="size-4 text-muted-foreground" />
+            <statusOpenCommandObject.icon className="size-4 text-muted-foreground" />
             <span className="ml-2">Status</span>
           </ContextMenuSubTrigger>
           <ContextMenuSubContent className="p-0 w-48">
@@ -188,7 +196,7 @@ export function TaskItem({
           open={assigneeSubOpen}
           onOpenChange={setAssigneeSubOpen}>
           <ContextMenuSubTrigger>
-            <RiUser2Fill className="size-4 text-muted-foreground" />
+            <assigneeOpenCommandObject.icon className="size-4 text-muted-foreground" />
             <span className="ml-2">Assignee</span>
           </ContextMenuSubTrigger>
           <ContextMenuSubContent className="p-0 w-48">
@@ -204,10 +212,7 @@ export function TaskItem({
           open={prioritySubOpen}
           onOpenChange={setPrioritySubOpen}>
           <ContextMenuSubTrigger>
-            <TaskPriorityIcon
-              priority={2}
-              className="size-4 text-muted-foreground"
-            />
+            <priorityOpenCommandObject.icon className="size-4 text-muted-foreground" />
             <span className="ml-2">Priority</span>
           </ContextMenuSubTrigger>
           <ContextMenuSubContent className="p-0 w-56">

@@ -1,11 +1,11 @@
 "use client";
-import { useCommandsRegistry } from "./commands-context";
+import { useCommands } from "./commands-context";
 import { useEffect } from "react";
 import { themeSetDarkCommand, themeSetLightCommand, themeToggleCommand } from "@/components/theme/theme-commands";
 import { useKeyboardShortcuts } from "@/lib/use-keyboard-shortcuts";
 
 export function CommandsInitializer() {
-    const { registerCommand } = useCommandsRegistry();
+    const { registerCommand } = useCommands();
 
     // setup keyboard shortcuts
     useKeyboardShortcuts();

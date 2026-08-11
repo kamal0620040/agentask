@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -8,16 +8,19 @@ import {
   DialogTrigger,
 } from '../ui/dialog';
 import { Button } from '../ui/button';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import { TaskTitleField } from './title/task-title-field';
 import { TaskDescriptionField } from './description/task-description-field';
 import { TaskAssigneeSelector } from './assignee/task-assignee-selector';
 import { TaskStatusSelector } from './status/task-status-selector';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { selectAllTasks } from '@/store/features/tasks/tasks-selector';
-import { TaskAssignee, TaskRaw, TaskStatus, TaskPriority } from '@/types/task';
-import { RiAddLine } from 'react-icons/ri';
+import { TaskRaw, TaskStatus, TaskPriority } from '@/types/task';
+import { formatShortcut } from '@/components/shortcuts/format-shortcut';
 import { addTask, setSelectedTask } from '@/store/features/tasks/tasks-slice';
 import { TaskPrioritySelector } from '../priority/task-priority-selector';
+import { taskCreateDialogOpenCommand } from './task-commands';
+import { useCommands } from '@/components/commands/commands-context';
 
 function getTodayDateString() {
   return new Date().toISOString().slice(0, 10);
@@ -38,6 +41,7 @@ function getNextTaskId(existingIds: string[]): string {
 }
 
 const NewTaskDialog = () => {
+    const { registerCommand } = useCommands();
     const dispatch = useAppDispatch();
     const tasks = useAppSelector(selectAllTasks);
     const [open, setOpen] = useState(false);
@@ -46,26 +50,34 @@ const NewTaskDialog = () => {
     const [description, setDescription] = useState('');
     const [status, setStatus] = useState<TaskStatus>('todo');
     const [priority, setPriority] = useState<TaskPriority>(0);
-    const [assignee, setAssignee] = useState<TaskAssignee | null>(null);
+    const [assigneeId, setAssigneeId] = useState<string | null>(null);
 
     const nextId = useMemo(() => {
         return getNextTaskId(tasks.map((task) => task.id));
     }, [tasks]);
 
+    const openCommand = useMemo(
+      () =>
+        taskCreateDialogOpenCommand(() => {
+          setOpen(true);
+        }),
+      [],
+    );
+
+    useEffect(() => {
+      const unregisterDialogOpen = registerCommand(openCommand);
+
+      return () => {
+        unregisterDialogOpen();
+      };
+    }, [registerCommand, openCommand]);
+
     function resetForm() {
       setTitle('');
       setDescription('');
       setStatus('todo');
-      setAssignee(null);
+      setAssigneeId(null);
       setPriority(0);
-    }
-    
-    function handleOpenChange(val: boolean) {
-        setOpen(val);
-        
-        if(!val) {
-          resetForm()
-        }
     }
 
     function handleCreate() {
@@ -76,23 +88,36 @@ const NewTaskDialog = () => {
         description: description,
         status,
         priority,
-        assigneeId: assignee?.id,
+        assigneeId: assigneeId ?? undefined,
         labels: [],
         createdAt,
         updatedAt: createdAt,
       };
       dispatch(addTask(newTask));
       dispatch(setSelectedTask(newTask.id));
-      handleOpenChange(false);
+      setOpen(false);
+      resetForm();
     }
 
   return (
-    <Dialog open={open} onOpenChange={handleOpenChange}>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>
-            <RiAddLine />
-            New Issue
-        </Button>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button aria-label={openCommand.name}>
+              <openCommand.icon />
+              New Issue
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <span>{openCommand.name}</span>
+            {openCommand.shortcut && (
+              <kbd className="ml-2 rounded bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
+                {formatShortcut(openCommand.shortcut)}
+              </kbd>
+            )}
+          </TooltipContent>
+        </Tooltip>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -108,7 +133,7 @@ const NewTaskDialog = () => {
           />
         </div>
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <TaskAssigneeSelector value={assignee} onChange={(val) => setAssignee(val)} />
+          <TaskAssigneeSelector value={assigneeId} onChange={(val) => setAssigneeId(val)} />
           <TaskStatusSelector value={status} onChange={(val) => setStatus(val)} />
           <TaskPrioritySelector value={priority} onChange={(p) => setPriority(p)} />
         </div>

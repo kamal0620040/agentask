@@ -9,9 +9,11 @@ import {
 import { RiArrowDownSLine } from 'react-icons/ri';
 import { TaskStatusIcon } from './task-status-icon';
 import { cn } from '@/lib/utils';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { TaskStatusCombobox } from './task-status-combobox';
 import { taskStatusRecord } from './task-status-list';
+import { taskStatusOpenCommand } from '../task-commands';
+import { useCommands } from '@/components/commands/commands-context';
 
 export type TaskStatusSelectorProps = {
   value: TaskStatus;
@@ -25,6 +27,23 @@ export function TaskStatusSelector({
   className,
 }: TaskStatusSelectorProps) {
   const [open, setOpen] = useState(false);
+  const { registerCommand } = useCommands();
+
+  const openCommand = useMemo(
+    () =>
+      taskStatusOpenCommand(() => {
+        setOpen(true);
+      }),
+    [],
+  );
+
+  useEffect(() => {
+    const unregisterStatus = registerCommand(openCommand);
+
+    return () => {
+      unregisterStatus();
+    };
+  }, [registerCommand, openCommand]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -33,7 +52,8 @@ export function TaskStatusSelector({
           variant="outline"
           size="sm"
           className={cn('flex items-center gap-1', className)}
-          aria-label="Change status">
+          aria-label={openCommand.name}
+          title={openCommand.shortcut}>
           <TaskStatusIcon status={value} />
           <span className="text-xs font-medium">
             {taskStatusRecord[value].label}

@@ -10,12 +10,13 @@ import {
 } from '@/components/ui/command';
 import { useEffect, useState } from 'react';
 
-import { useCommandsRegistry } from './commands-context';
+import { useCommands } from './commands-context';
 import { formatShortcut } from '@/components/shortcuts/format-shortcut';
+import { cn } from '@/lib/utils';
 
 export function CommandPalette() {
   const [open, setOpen] = useState(false);
-  const { commands } = useCommandsRegistry();
+  const { commands } = useCommands();
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -29,16 +30,23 @@ export function CommandPalette() {
   }, []);
 
   // Group commands by their group property
-  const groupedCommands = commands.reduce(
-    (acc, command) => {
-      const group = command.group || 'general';
-      if (!acc[group]) {
-        acc[group] = [];
-      }
-      acc[group].push(command);
-      return acc;
-    },
-    {} as Record<string, typeof commands>,
+  const groupedCommands = commands
+    .filter((command) => command.commandPalette)
+    .reduce(
+      (acc, command) => {
+        const group = command.group || 'general';
+        if (!acc[group]) {
+          acc[group] = [];
+        }
+        acc[group].push(command);
+        return acc;
+      },
+      {} as Record<string, typeof commands>,
+    );
+
+  // TODO: Implement group ranking
+  const groups = Object.entries(groupedCommands).sort(([a], [b]) =>
+    a.localeCompare(b),
   );
 
   return (
@@ -51,21 +59,24 @@ export function CommandPalette() {
       </p>
       <CommandDialog open={open} onOpenChange={setOpen}>
         <CommandInput placeholder="Type a command or search..." />
-        <CommandList>
+        <CommandList className="min-h-[300px]">
           <CommandEmpty>No results found</CommandEmpty>
-          {Object.entries(groupedCommands).map(([groupName, groupCommands]) => (
+          {groups.map(([groupName, groupCommands]) => (
             <CommandGroup
               key={groupName}
               heading={groupName.charAt(0).toUpperCase() + groupName.slice(1)}>
               {groupCommands.map((command) => (
                 <CommandItem
                   key={command.id}
+                  value={`${command.shortcut} ${command.name}`}
                   onSelect={() => {
                     command.action();
                     setOpen(false);
                   }}>
-                  {command.icon && <command.icon className="mr-2 h-4 w-4" />}
-                  <span>{command.name}</span>
+                  {command.icon && (
+                    <command.icon className={cn('mr-2 size-4')} />
+                  )}
+                  <span className="font-medium">{command.name}</span>
                   {command.shortcut && (
                     <CommandShortcut>
                       {formatShortcut(command.shortcut)}

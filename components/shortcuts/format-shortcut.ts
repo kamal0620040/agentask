@@ -7,6 +7,8 @@ export function formatShortcut(shortcut: string) {
     .replace('ArrowUp', '↑')
     .replace('ArrowDown', '↓')
     .replace('enter', '↵')
+    .replace('Escape', 'Esc')
+    .replace('Backspace', '⌫')
     .replace('+', '')
     .toUpperCase();
 }

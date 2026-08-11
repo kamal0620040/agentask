@@ -13,7 +13,7 @@ import Image from 'next/image';
 import { assignees } from '@/data/mock-assignee';
 
 type Props = {
-  onSelect: (assignee: string) => void;
+  onSelect: (assigneeId: string) => void;
 };
 
 export function TaskAssigneeCombobox({ onSelect }: Props) {

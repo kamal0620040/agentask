@@ -17,7 +17,7 @@ export const taskSlice = createSlice({
   initialState,
   reducers: {
     addTask: (state, action: PayloadAction<TaskRaw>) => {
-      state.tasks.push(action.payload);
+      state.tasks.unshift(action.payload);
     },
     updateTask: (
       state,

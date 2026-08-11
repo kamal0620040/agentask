@@ -80,11 +80,11 @@ export function CommandsProvider({ children }: CommandsProviderProps) {
   );
 }
 
-export function useCommandsRegistry(): CommandsContextValue {
+export function useCommands(): CommandsContextValue {
   const context = useContext(CommandsContext);
   if (context === undefined) {
     throw new Error(
-      'useCommandsRegistry must be used within a CommandsProvider',
+      'useCommands must be used within a CommandsProvider',
     );
   }
   return context;

@@ -1,5 +1,5 @@
-import { TaskStatus, type TaskObject, TaskAssignee } from '@/types/task';
-import { useCommandsRegistry } from '../commands/commands-context';
+import { TaskStatus, type TaskObject } from '@/types/task';
+import { useCommands } from '../commands/commands-context';
 import { useAppDispatch } from '@/store/hooks';
 import {
   taskDeleteCommand,
@@ -28,7 +28,7 @@ export type TaskDetailsProps = {
 };
 
 export function TaskDetails({ task }: TaskDetailsProps) {
-  const { registerCommand } = useCommandsRegistry();
+  const { registerCommand } = useCommands();
   const dispatch = useAppDispatch();
 
   const taskDeleteCommandObj = taskDeleteCommand(task.id);
@@ -49,12 +49,12 @@ export function TaskDetails({ task }: TaskDetailsProps) {
     };
   }, [registerCommand, task.id]);
 
-  function handleAssigneeChange(newAssignee: TaskAssignee) {
-    if (newAssignee?.id !== task.assignee?.id) {
+  function handleAssigneeChange(assigneeId: string) {
+    if (assigneeId !== task.assignee?.id) {
       dispatch(
         assignTask({
           id: task.id,
-          assigneeId: newAssignee.id,
+          assigneeId,
         }),
       );
     }
@@ -112,14 +112,10 @@ export function TaskDetails({ task }: TaskDetailsProps) {
         />
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
           <span>Assignee:</span>
-          {task.assignee ? (
-            <TaskAssigneeSelector
-              value={task.assignee ?? undefined}
-              onChange={handleAssigneeChange}
-            />
-          ) : (
-            <span className="font-medium">Unassigned</span>
-          )}
+          <TaskAssigneeSelector
+            value={task.assignee?.id ?? undefined}
+            onChange={handleAssigneeChange}
+          />
         </div>
         <TaskDescriptionField
           value={task.description || ''}
