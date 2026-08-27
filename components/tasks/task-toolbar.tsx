@@ -16,7 +16,8 @@ import {
   toggleAiChatSidebar,
 } from '@/store/features/display/display-slice';
 import { selectAiChatSidebarVisible } from '@/store/features/display/display-selectors';
-import { RiArrowRightDoubleLine, RiSparkling2Fill } from 'react-icons/ri';
+import { RiArrowRightDoubleLine } from 'react-icons/ri';
+import { aiChatToggleCommandData } from '@/components/ai/ai-chat-commands';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import { formatShortcut } from '@/components/shortcuts/format-shortcut';
 import TaskCreateDialog from './create/task-create-dialog';
@@ -103,7 +104,7 @@ export function TaskToolbar() {
             <Button
               variant="ghost"
               size="sm"
-              aria-label="Toggle AI Chat"
+              aria-label={aiChatToggleCommandData.name}
               className="gap-1.5"
               onClick={() => {
                 dispatch(toggleAiChatSidebar());
@@ -112,14 +113,19 @@ export function TaskToolbar() {
                 <RiArrowRightDoubleLine className="size-4" />
               ) : (
                 <>
-                  <RiSparkling2Fill className="size-4" />
+                  <aiChatToggleCommandData.icon className="size-4" />
                   <span>Chat</span>
                 </>
               )}
             </Button>
           </TooltipTrigger>
           <TooltipContent>
-            <span>Toggle AI Chat</span>
+            <span>{aiChatToggleCommandData.name}</span>
+            {aiChatToggleCommandData.shortcut && (
+              <kbd className="ml-2 rounded bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
+                {formatShortcut(aiChatToggleCommandData.shortcut)}
+              </kbd>
+            )}
           </TooltipContent>
         </Tooltip>
       </div>
