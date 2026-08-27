@@ -5,12 +5,14 @@ export type TaskTitleFieldProps = {
     value: string;
     onChange: (value: string) => void;
     onBlur?: () => void;
+    placeholder?: string;
 } & Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'>;
 
 export function TaskTitleField({
     value,
     onChange,
     onBlur,
+    placeholder,
     ...props
 }: TaskTitleFieldProps) {
     const titleRef = useRef<HTMLInputElement | null>(null);
@@ -32,7 +34,7 @@ export function TaskTitleField({
 
 
     return (
-        <Input role="textbox" ref={titleRef} contentEditable onInput={(e) => setBuffer(e.currentTarget.value || '')} onBlur={() => {
+        <Input role="textbox" ref={titleRef} contentEditable placeholder={placeholder} onInput={(e) => setBuffer(e.currentTarget.value || '')} onBlur={() => {
             if(buffer !== value && buffer !== '') {
                 onChange(buffer);
             }

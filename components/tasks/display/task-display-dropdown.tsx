@@ -159,7 +159,7 @@ export function TaskDisplayDropdown() {
         align="end"
         className="w-56 p-0"
         onEscapeKeyDown={() => setOpen(false)}>
-        <div className="flex items-center gap-3 p-3">
+        <div className="flex items-center gap-2 p-3">
           <div className="flex flex-1 items-center gap-1">
             <RiArrowUpDownLine className="size-4 text-muted-foreground" />
             <Label className="text-xs font-medium text-muted-foreground">
@@ -204,7 +204,7 @@ export function TaskDisplayDropdown() {
           </div>
         </div>
         <div className="border-t border-border" />
-        <div className="flex flex-col gap-2 p-3">
+        <div className="flex flex-col gap-1.5 p-3">
           <Label className="text-xs font-medium text-foreground">
             List options
           </Label>
@@ -212,7 +212,7 @@ export function TaskDisplayDropdown() {
             <Label className="text-xs font-medium text-muted-foreground">
               Display properties
             </Label>
-            <div className="mt-3 flex flex-wrap gap-1">
+            <div className="mt-2 flex flex-wrap gap-1">
               {allFields.map((field) => (
                 <ToggleFieldButton
                   key={field}
@@ -225,7 +225,7 @@ export function TaskDisplayDropdown() {
           </div>
         </div>
         <div className="border-t border-border" />
-        <div className="flex items-center justify-end px-2 py-2">
+        <div className="flex items-center justify-end px-2 py-1.5">
           <Button size="xs" variant="ghost" onClick={handleReset}>
             Reset
           </Button>

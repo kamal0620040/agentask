@@ -35,6 +35,8 @@ import {
 } from '@/store/features/tasks/tasks-slice';
 import { selectRawTasks } from '@/store/features/tasks/tasks-selector';
 import { assignees } from '@/data/mock-assignee';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
+import { RiSendPlaneFill } from 'react-icons/ri';
 import type { TaskRaw, TaskStatus, TaskPriority } from '@/components/tasks/types';
 
 function generateTaskId(tasks: TaskRaw[]): string {
@@ -355,19 +357,40 @@ export function AiChatSidebar() {
           <MessageScrollerButton />
         </MessageScroller>
       </MessageScrollerProvider>
-      <div className={cn('flex flex-col gap-2 p-2')}>
-        <form onSubmit={handleSubmit} className="flex gap-2">
+      <div className={cn('flex flex-col gap-2 p-2 pt-1')}>
+        <form
+          onSubmit={handleSubmit}
+          className={cn(
+            'flex items-center gap-1.5 rounded-2xl border border-input bg-card p-1.5 shadow-xs',
+            'focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50',
+            'transition-[border-color,box-shadow]',
+          )}>
           <Textarea
             autoFocus={true}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyPress}
             placeholder="Ask me anything about your tasks..."
-            className="resize-none min-h-10 max-h-30 flex-1 leading-tight"
+            className="min-h-10 max-h-32 flex-1 resize-none border-0 bg-transparent px-2.5 py-2 leading-tight shadow-none focus-visible:ring-0"
           />
-          <Button type="submit" disabled={!input.trim()} size="sm" className="self-end">
-            Send
-          </Button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                type="submit"
+                disabled={!input.trim()}
+                size="icon"
+                aria-label="Send message"
+                className="size-9 shrink-0 rounded-xl">
+                <RiSendPlaneFill className="size-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <span>Send</span>
+              <kbd className="ml-2 rounded bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
+                Enter
+              </kbd>
+            </TooltipContent>
+          </Tooltip>
         </form>
       </div>
     </div>

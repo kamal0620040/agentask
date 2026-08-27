@@ -5,7 +5,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '../../ui/dialog';
 import { Button } from '../../ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../../ui/tooltip';
@@ -115,30 +114,31 @@ const TaskCreateDialog = () => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button variant="secondary" aria-label={openCommand.name}>
-              <openCommand.icon />
-              New Issue
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>
-            <span>{openCommand.name}</span>
-            {openCommand.shortcut && (
-              <kbd className="ml-2 rounded bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
-                {formatShortcut(openCommand.shortcut)}
-              </kbd>
-            )}
-          </TooltipContent>
-        </Tooltip>
-      </DialogTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            variant="secondary"
+            aria-label={openCommand.name}
+            onClick={() => setOpen(true)}>
+            <openCommand.icon />
+            New Issue
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>
+          <span>{openCommand.name}</span>
+          {openCommand.shortcut && (
+            <kbd className="ml-2 rounded bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
+              {formatShortcut(openCommand.shortcut)}
+            </kbd>
+          )}
+        </TooltipContent>
+      </Tooltip>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Create New Task</DialogTitle>
         </DialogHeader>
         <div className="flex flex-col gap-3">
-          <TaskTitleField value={title} onChange={(val) => setTitle(val)} />
+          <TaskTitleField value={title} onChange={(val) => setTitle(val)} placeholder="Task name" />
           <TaskDescriptionField
             value={description}
             onChange={(val) => setDescription(val)}
