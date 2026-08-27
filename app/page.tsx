@@ -10,6 +10,7 @@ import { useAppSelector } from "@/store/hooks";
 import { selectAiChatSidebarVisible } from "@/store/features/display/display-selectors";
 import { cn } from "@/lib/utils";
 import { Group, Panel, Separator } from "react-resizable-panels";
+import { RiSparkling2Fill } from "react-icons/ri";
 
 export default function Home() {
   const aiChatSidebarVisible = useAppSelector(selectAiChatSidebarVisible);
@@ -17,7 +18,10 @@ export default function Home() {
   return (
     <div className="flex flex-col h-screen">
       <div className="flex items-center justify-between gap-2 p-2">
-        <h1 className="text-base tracking-wide">Agentask</h1>
+        <h1 className="flex items-center ml-2 gap-2 text-lg font-semibold tracking-tight md:text-xl">
+          <RiSparkling2Fill className="size-5 text-primary" />
+          Agentask
+        </h1>
         <div className="flex items-center gap-2">
           <GlobalCommands />
           <CommandPalette />
